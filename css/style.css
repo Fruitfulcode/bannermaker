@@ -7,7 +7,8 @@ body {
     overflow: hidden
 }
 .banner_maker_container .banner_slide {
-	position: absolute
+	position: absolute;
+	display: none
 }
 
 	

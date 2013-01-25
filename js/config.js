@@ -176,7 +176,7 @@ jQuery(document).ready(function() {
 		jQuery.ajax({
 			type: 'POST',
 		    cache: false,  
-			url: 'http://localhost/Wordpress/wp-content/plugins/Banner-creator/scripts/save-layers.php',
+			url: 'http://localhost/Wordpress/wp-content/plugins/bannermaker/scripts/save-layers.php',
 			data: data,
 			success: function(html) {
 				jQuery('#banner_form_set').submit();

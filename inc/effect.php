@@ -2,7 +2,8 @@
 
 	global $Animation,$Easing;
 	
-	$Animation	     = array(  'Fade','Short from Top',
+	$Animation	     = array(  	'Fade',
+								'Short from Top',
 								'Short from Bottom',
 								'Short from Right',
 								'Short from Left',

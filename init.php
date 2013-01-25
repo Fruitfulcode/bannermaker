@@ -9,15 +9,7 @@ function banner_admin_style() {
 }
 add_action('admin_init', 'banner_admin_style');
 
-function banner_style() {
-	
-	wp_register_style( 'banner_slyle', plugins_url('/css/style.css', __FILE__));
-	
-	wp_enqueue_style( 'banner_slyle');
-}
-add_action('wp_enqueue_scripts', 'banner_style');
-
-function my_admin_scripts() {
+function banner_admin_scripts() {
 	
 	wp_deregister_script	("jquery-banner");
 	wp_register_script		("jquery-banner", "http://code.jquery.com/jquery-1.8.0.min.js", false, "1.8.0", true);
@@ -31,7 +23,21 @@ function my_admin_scripts() {
 	wp_enqueue_script('ui-mouse',     plugins_url('/js/ui/jquery.ui.mouse.js', __FILE__),array('jquery-banner'), '20131801', false );
 	wp_enqueue_script('ui-sortable',  plugins_url('/js/ui/jquery.ui.sortable.js', __FILE__),array('jquery-banner'), '20131801', false );
 	wp_enqueue_script('ui-draggable',  plugins_url('/js/ui/jquery.ui.draggable.js', __FILE__),array('jquery-banner'), '20131801', false );
-
+	
 }
-add_action('admin_init', 'my_admin_scripts');
+add_action('admin_init', 'banner_admin_scripts');
+
+function banner_init() {
+	
+	wp_deregister_script	("jquery-banner-show");
+	wp_register_script		("jquery-banner-show", "http://code.jquery.com/jquery-1.8.0.min.js", false, "1.8.0", true);
+	wp_enqueue_script		("jquery-banner-show");
+	
+	wp_enqueue_script('easing',  plugins_url('/js/easing.js', __FILE__),array('jquery-banner-show'), '20131801', false );
+	
+	wp_register_style( 'banner_slyle', plugins_url('/css/style.css', __FILE__));
+	wp_enqueue_style( 'banner_slyle');
+	
+}
+add_action('wp_enqueue_scripts', 'banner_init');
 ?>

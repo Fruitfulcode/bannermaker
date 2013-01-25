@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Banner Maker
-Plugin URI: http://fruitfulcode.com
+Plugin URI: http://bannermakerwp.com
 Description: Create banners with many different effects 
-Author: Artemis
-Author URI: http://Art.com
+Author: fruitfulcode
+Author URI: http://fruitfulcode.com
 */
 global $wpdb;
 
@@ -150,6 +150,7 @@ function get_banner_out($atts) {
 	unset($banner_out);
 	unset($sql);
 	unset($get_settings);
+	unset($script);
 	
 	$sql = "select * from $banner_prefs_table where id=".$id."";
 	$get_settings = $wpdb->get_results($sql);
@@ -159,6 +160,8 @@ function get_banner_out($atts) {
 	}
 	if( $get_settings) {
 		
+		$script = '<script type="text/javascript">';
+				
 		foreach($get_settings as $line){
 			foreach($line as $key  => $value){
 				$banner_macive[$key] = $value;
@@ -173,15 +176,33 @@ function get_banner_out($atts) {
 		
 		foreach ($settings_macive as $value_key) {
 			if($value_key['img'])	{	$temp_body = '<img src="'.$value_key['img'].'"/>';	}
-			else			{	$temp_body = $value_key['html'];	}
+			else					{	$temp_body = $value_key['html'];					}
 		
 			$banner_out	 .= '<div class="banner_slide" id="slide-layer-'.$count.'" style="left: '.$value_key['y'].'; top: '.$value_key['x'].';">'.$temp_body.'</div>';	
+			
+			if($value_key['animation'] == 'Fade') 				{}
+			if($value_key['animation'] == 'Short from Top') 	{}
+			if($value_key['animation'] == 'Short from Bottom') 	{}
+			if($value_key['animation'] == 'Short from Right') 	{}
+			if($value_key['animation'] == 'Short from Left') 	{}
+			if($value_key['animation'] == 'Long from Top') 		{}
+			if($value_key['animation'] == 'Long from Bottom') 	{}
+			if($value_key['animation'] == 'Long from Right') 	{}
+			if($value_key['animation'] == 'Long from Left') 	{}
+			if($value_key['animation'] == 'Random Rotate') 		{}
+			
+			/*$script .= 'jQuery("#slide-layer-'.$count.'").fadeIn(3000);';*/
+			$script .= 'jQuery("#slide-layer-'.$count.'").animate({height: "show", width: "show"}, 1500, "'.$value_key['easing'].'");';
 			$count++;
+			
+			
 		}
 		
 		$banner_out 	 .= '</a></div>';
+		$script .= '</script>';
 		
-	echo $banner_out;
+		echo $banner_out;
+		echo $script;
 	} 
 }
 add_shortcode('bannermaker','get_banner_out');
