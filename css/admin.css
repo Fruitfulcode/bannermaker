@@ -1,0 +1,179 @@
+#settings-container {
+	border: 1px solid black;
+	float: left;
+	width: 702px;
+	padding: 0 30px;
+}
+/* ----- */
+#settings-container .set_general{
+	width: 500px;
+	display: block;
+	margin-bottom: 15px;
+	line-height: 25px;
+}
+#settings-container .set_general input[type="text"]{
+	float:right;
+	width: 360px;
+	height: 25px;
+}
+#settings-container .set_general label{
+	width: 170px;
+	float: right;
+	margin-left: 20px;
+}
+#settings-container .set_general label input[type="text"]{
+	width: 120px;
+	float: right;
+}
+/* ----- */
+#settings-container #banner_working_board {
+	width: 700px;
+	height: 350px;
+	background-color: #888;
+	border: 1px solid black;
+	position: relative;
+}
+.blue_a_but,
+.green_e_but,
+.red_d_but,
+.delete_all,
+.delete_layer{
+	background-color: #3399FF;
+	padding: 7px 20px;
+	margin: 10px 10px 10px 0;
+	color: white;
+	text-decoration: none;
+	border: 1px solid black;
+	display: inline-block;
+	font-weight: bold;
+	cursor: pointer;
+}
+.green_e_but {background: #66e932;padding: 3px 10px;border-radius: 4px;}
+.red_d_but {background: #ff0000;padding: 3px 10px;border-radius: 4px;}
+.delete_all, 
+.delete_layer {float: right;background: #ff0000; margin: 10px 0 10px 10px;}
+.blue_a_but:hover {
+	background-color: #33D7FF;
+	color: white;
+}
+.green_e_but:hover {
+	background-color: #00bb16;
+	color: white;
+}
+.red_d_but:hover {
+	background-color: #c20000;
+	color: black;
+}
+.delete_all:hover,
+.delete_layer:hover  {
+	background-color: #c20000;
+	color: black;
+	float: right;
+}
+
+/* ----- */
+#settings-container #settings-area {
+	width: 702px;
+	float:left;
+}
+#settings-container #settings-area .title-layers,
+#settings-container #settings-area .title-parameters{
+	background: tan;
+}
+#settings-container #settings-area #layer-param{
+	margin-right: 32px;
+}
+#settings-container #settings-area #layer-param,
+#settings-container #settings-area #layers-order{
+	width: 333px;
+	float:left;
+	border: 1px solid black;
+	margin-bottom: 20px;
+	height: 440px;
+}
+#settings-container #settings-area #layers-order #layers-order-list {
+	margin:0;
+	padding:0;
+}
+#settings-container #settings-area #layers-order #layers-order-list .slide{
+	height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    width: 313px;
+	background: beige;
+	border-bottom: 1px solid black;
+	margin: 0;
+}
+#settings-container #settings-area #layers-order #layers-order-list .slide .banner_parameters{
+	display: none;
+}
+#settings-container #settings-area #layers-order #layers-order-list .slide:hover{
+	background: seashell;
+}
+#settings-container #settings-area #layers-order #layers-order-list .slide.active_slide{
+	background: #3399FF;
+	color: white;
+	font-weight: bold;
+}
+#settings-container #settings-area #layers-order #layers-order-list .slide .layer_counter {
+	float: right;
+	font-weight: bold;
+}
+#settings-container #settings-area h4{
+	border-bottom: 1px solid black;
+	padding: 10px;
+	margin: 0;
+	
+}
+#settings-container #settings-area #layer-param  label{
+	width: 305px;
+	display:block;
+	margin: 10px;
+	line-height: 25px
+}
+#settings-container #settings-area #layer-param  label select{
+	width: 200px;
+	float: right;
+}
+#settings-container #settings-area #layer-param  label input[type="text"]{
+	float: right;
+	width: 200px;
+}
+#settings-container #settings-area #layer-param #css_area {
+	line-height: 1;
+}
+#settings-container #settings-area #layer-param #css_area select{
+	width: 150px;
+	margin-left: 20px;
+	margin-right: 8px;
+	float: none;
+}
+#settings-container #settings-area #layer-param #css_area a{
+	margin: 0;
+	background: none;
+	color: black;
+}
+#settings-container #settings-area #layer-param #css_area a:hover{
+	background: #bbb;
+}
+#settings-container #settings-area #layer-param #btext_layer textarea{
+	width: 305px;
+	margin-top: 5px;
+	height: 100px;
+	resize: none;
+}
+/* ----- */
+.grid_B_1{
+	width: 60px;
+}
+.grid_B_2{
+	width: 250px;
+}
+.grid_B_3{
+	width: 350px;
+}
+
+.marginleft{margin-left: 70px;}
+
+.banner_block_drag {position:absolute!important;top: 0px;left: 0px;}
+.drop_active {border: 1px solid red;}

@@ -1,0 +1,13 @@
+body {
+	background-color: red
+}
+.banner_maker_container {
+	position: relative;
+	display: block;
+    overflow: hidden
+}
+.banner_maker_container .banner_slide {
+	position: absolute
+}
+
+	
