@@ -1,6 +1,4 @@
 <?php
-
-
 function getBannerPage($initVar = ""){
 			$var = $initVar;
 			if(isset($_GET['status'])) $var = $_GET['status'];
@@ -74,8 +72,9 @@ function get_list_settings_layers($id = null){
 	unset($out);
 	unset($set_out);
 	unset($set_slides);
+	
 	$count = 0;
-
+	
 	$settings = get_slide_settings($id);
 		
 	if($settings) {
@@ -89,19 +88,22 @@ function get_list_settings_layers($id = null){
 			$set_out .= '<span class="set_b_animation">'.$value_key['animation'].'</span>';
 			$set_out .= '<span class="set_b_easing">'.$value_key['easing'].'</span>';	
 			$set_out .= '<span class="set_b_speed">'.$value_key['speed'].'</span>';	
+			$set_out .= '<span class="set_b_delay">'.$value_key['delay'].'</span>';	
 			$set_out .= '<span class="set_b_x">'.$value_key['x'].'</span>';			
 			$set_out .= '<span class="set_b_y">'.$value_key['y'].'</span>';		
    		    $set_out .= '<span class="set_b_img">'.$value_key['img'].'</span>';		
 							
 			if($value_key['img'])	{	$temp_body = '<img src="'.$value_key['img'].'"/>';	}
-			else			{	$temp_body = $value_key['html'];	}
+			else			{	$temp_body = html_entity_decode($value_key['html']);	}
 			
-			$set_slides .= '<div id="layer-'.$count.'" class="'.$value_key['style'].' banner_block_drag" style="display: inline-block;top:'.$value_key['x'].';left:'.$value_key['y'].';">'.$temp_body.'</div>';
+			$set_slides .= '<div id="layer-'.$count.'" class="'.$value_key['style'].' banner_block_drag" style="display: inline-block;top:'.$value_key['y'].';left:'.$value_key['x'].';">'.$temp_body.'</div>';
 			$set_out .='</div>';
 			$out .= $set_out.'<span class="layer_counter">'.$count.'</span></li>';
+			
 			$count++;
 		}
 	}
+		
 	echo $set_slides;
 	
 	return $out;
@@ -139,6 +141,32 @@ function get_slide_settings($id) {
 	}
 	
 	return $settings_macive;
+}
+add_action('wp_ajax_banner_save_settings', 'banner_save_settings');
+
+function banner_save_settings() {
+	global $wpdb;
+	$banner_prefs_table = $wpdb->prefix.'banner_settings';
+	unset($sql);
+
+	$get_json = htmlspecialchars($_POST["name"]);
+	$id = htmlspecialchars($_POST["id"]);
+	$json = str_replace('/ban87;','"',$get_json);
+	
+	$sql = "select settings from $banner_prefs_table where id=".$id."";
+	$status = $wpdb->get_results($sql);
+	unset($sql);
+
+		if($status) {
+			$sql = "UPDATE $banner_prefs_table 
+					SET id='$id',settings='$json'
+					WHERE id=$id";
+			$wpdb->query($sql);
+		}
+		else {
+			$sql = "INSERT INTO wp_banner_settings (id,settings) VALUES('$id','$json')";
+			$wpdb->query($sql);
+		}
 }
 function show_Banner_settings(){
 	global $wpdb;
@@ -219,6 +247,9 @@ function show_Banner_settings(){
 				</label>
 				<label>Speed 
 					<input type="text" disabled="disabled" id="banner_speed"></input>
+				</label>
+				<label>Delay 
+					<input type="text" disabled="disabled" id="banner_delay"></input>
 				</label>
 				<label>X 
 					<input type="text" disabled="disabled" id="banner_x"></input>

@@ -20,7 +20,6 @@ define('BANNER_SCRIPTS','/scripts');
 //include  files
 require_once BANNER_INC.'/effect.php';
 require_once BANNER_INC.'/function.php';
-require_once BANNER_SCRIPTS.'/save-layers.php';
 require_once 'init.php';
 
 register_activation_hook(BANNER_DIR,'banner_install');
@@ -160,7 +159,7 @@ function get_banner_out($atts) {
 	}
 	if( $get_settings) {
 		
-		$script = '<script type="text/javascript">';
+		$script = '<script type="text/javascript">var jQuery182 = $.noConflict(); jQuery182(function($){';
 				
 		foreach($get_settings as $line){
 			foreach($line as $key  => $value){
@@ -176,30 +175,30 @@ function get_banner_out($atts) {
 		
 		foreach ($settings_macive as $value_key) {
 			if($value_key['img'])	{	$temp_body = '<img src="'.$value_key['img'].'"/>';	}
-			else					{	$temp_body = $value_key['html'];					}
+			else					{	$temp_body = html_entity_decode($value_key['html']);					}
 		
-			$banner_out	 .= '<div class="banner_slide" id="slide-layer-'.$count.'" style="left: '.$value_key['y'].'; top: '.$value_key['x'].';">'.$temp_body.'</div>';	
-			
-			if($value_key['animation'] == 'Fade') 				{}
-			if($value_key['animation'] == 'Short from Top') 	{}
-			if($value_key['animation'] == 'Short from Bottom') 	{}
-			if($value_key['animation'] == 'Short from Right') 	{}
-			if($value_key['animation'] == 'Short from Left') 	{}
-			if($value_key['animation'] == 'Long from Top') 		{}
-			if($value_key['animation'] == 'Long from Bottom') 	{}
-			if($value_key['animation'] == 'Long from Right') 	{}
-			if($value_key['animation'] == 'Long from Left') 	{}
-			if($value_key['animation'] == 'Random Rotate') 		{}
-			
-			/*$script .= 'jQuery("#slide-layer-'.$count.'").fadeIn(3000);';*/
-			$script .= 'jQuery("#slide-layer-'.$count.'").animate({height: "show", width: "show"}, 1500, "'.$value_key['easing'].'");';
+			$banner_out .= get_Banner_slide (	$value_key['animation'],
+												$value_key['x'],
+												$value_key['y'],
+												$count,
+												$temp_body,
+												$banner_macive['width'],
+												$banner_macive['height']
+											);
+		
+			$script		.= get_Banner_script(	$value_key['animation'],
+												$value_key['x'],
+												$value_key['y'],
+												$value_key['speed'],
+												$value_key['easing'],
+												$count
+											);
+											
 			$count++;
-			
-			
 		}
-		
+			
 		$banner_out 	 .= '</a></div>';
-		$script .= '</script>';
+		$script .= '});</script>';
 		
 		echo $banner_out;
 		echo $script;

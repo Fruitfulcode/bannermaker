@@ -6,6 +6,7 @@
 		slide_parameters['b_animation']  = 'Fade';
 		slide_parameters['b_easing']	  = 'easeOutBack';
 		slide_parameters['b_speed'] 	  = 300;
+		slide_parameters['b_delay'] 	  = 1000;
 		slide_parameters['b_x'] 		  = '0px';
 		slide_parameters['b_y'] 		  = '0px';
 	
@@ -15,6 +16,7 @@
 		slide_set += '<span class="set_b_animation">'+slide_parameters['b_animation']+'</span>';
 		slide_set += '<span class="set_b_easing">'+slide_parameters['b_easing']+'</span>';
 		slide_set += '<span class="set_b_speed">'+slide_parameters['b_speed']+'</span>';
+		slide_set += '<span class="set_b_delay">'+slide_parameters['b_speed']+'</span>';
 		slide_set += '<span class="set_b_x">'+slide_parameters['b_x']+'</span>';
 		slide_set += '<span class="set_b_y">'+slide_parameters['b_y']+'</span>';
 
@@ -31,6 +33,7 @@ function set_active(obj) {
 	jQuery('#banner_animation').removeAttr('disabled');
 	jQuery('#banner_easing').removeAttr('disabled');
 	jQuery('#banner_speed').removeAttr('disabled');
+	jQuery('#banner_delay').removeAttr('disabled');
 	jQuery('#banner_x').removeAttr('disabled');
 	jQuery('#banner_y').removeAttr('disabled');
 }
@@ -42,18 +45,20 @@ function change_form() {
 	jQuery("#banner_working_board").height(jQuery("#set_height").val());
 	jQuery("#set_width").change(function()  { jQuery("#banner_working_board").width(jQuery("#set_width").val());   		});
 	jQuery("#set_height").change(function() { jQuery("#banner_working_board").height(jQuery("#set_height").val()); 		});
-	jQuery("#banner_x").change(function()   { jQuery(".drop_active").css('top',parseInt(jQuery("#banner_x").val()));	});
-	jQuery("#banner_y").change(function()   { jQuery(".drop_active").css('left',parseInt(jQuery("#banner_y").val())); 	});
-	
+	jQuery("#banner_x").change(function()   { jQuery(".drop_active").css('left',parseInt(jQuery("#banner_x").val())); 	});
+	jQuery("#banner_y").change(function()   { jQuery(".drop_active").css('top',parseInt(jQuery("#banner_y").val()));	});
+		
 	/* layers changes */
 	
 	jQuery("#banner_style").change(function()	  { jQuery('.active_slide .banner_parameters .set_b_style').text(jQuery(this).val());		});
-	jQuery("#banner_html").change(function() 	  { jQuery('.active_slide .banner_parameters .set_b_html').text(jQuery(this).val()); 	 	});
+	jQuery("#banner_html").on('keyup',function()  { jQuery('.active_slide .banner_parameters .set_b_html').text(jQuery(this).val()); 
+													jQuery('.drop_active ').html(jQuery(this).val()); 									 	});
 	jQuery("#banner_animation").change(function() { jQuery('.active_slide .banner_parameters .set_b_animation').text(jQuery(this).val()); 	});
 	jQuery("#banner_easing").change(function() 	  { jQuery('.active_slide .banner_parameters .set_b_easing').text(jQuery(this).val()); 		});
-	jQuery("#banner_speed").change(function() 	  { jQuery('.active_slide .banner_parameters .set_b_speed').text(jQuery(this).val()); 		});
-	jQuery("#banner_x").change(function() 		  { jQuery('.active_slide .banner_parameters .set_b_x').text(jQuery(this).val()); 			});
-	jQuery("#banner_y").change(function() 		  { jQuery('.active_slide .banner_parameters .set_b_y').text(jQuery(this).val());			});
+	jQuery("#banner_speed").on('keyup',function() { jQuery('.active_slide .banner_parameters .set_b_speed').text(jQuery(this).val());		});
+	jQuery("#banner_delay").on('keyup',function() { jQuery('.active_slide .banner_parameters .set_b_delay').text(jQuery(this).val()); 		});
+	jQuery("#banner_x").on('keyup',function() 	  { jQuery('.active_slide .banner_parameters .set_b_x').text(jQuery(this).val()); 			});
+	jQuery("#banner_y").on('keyup',function() 	  { jQuery('.active_slide .banner_parameters .set_b_y').text(jQuery(this).val());			});
 	
 	/* drop changes */
 	jQuery('.slide').live('mousedown',function() {
@@ -77,8 +82,8 @@ function change_form() {
 	});
 	
 	jQuery('.drop_active').live('mousemove',function() {
-		jQuery("#banner_x").val(jQuery(".drop_active").css('top'));
-		jQuery("#banner_y").val(jQuery(".drop_active").css('left'));
+		jQuery("#banner_x").val(jQuery(".drop_active").css('left'));
+		jQuery("#banner_y").val(jQuery(".drop_active").css('top'));
 		jQuery('.active_slide .banner_parameters .set_b_x').text(jQuery('#banner_x').val());
 		jQuery('.active_slide .banner_parameters .set_b_y').text(jQuery('#banner_y').val());
 	});
@@ -90,6 +95,7 @@ function set_parameters(obj) {
 	jQuery('#banner_animation').val(jQuery(obj).find('.set_b_animation').text());
 	jQuery('#banner_easing').val(jQuery(obj).find('.set_b_easing').text());
 	jQuery('#banner_speed').val(jQuery(obj).find('.set_b_speed').text());
+	jQuery('#banner_delay').val(jQuery(obj).find('.set_b_delay').text());
 	jQuery('#banner_x').val(jQuery(obj).find('.set_b_x').text());
 	jQuery('#banner_y').val(jQuery(obj).find('.set_b_y').text());
 }
@@ -111,20 +117,21 @@ function get_parameters() {
 		
 	jQuery('#layers-order-list .slide').each(function(){
 		
-		maccive += '"'+count+'":';
-		maccive += '{"type": "'+jQuery(this).find('.layer_type').text()+'",';
+		maccive += '/ban87;'+count+'/ban87;:';
+		maccive += '{/ban87;type/ban87;: /ban87;'+jQuery(this).find('.layer_type').text()+'/ban87;,';
 		if(jQuery(this).find('.layer_type').text() == 'Text') {
-			maccive += '"style": "'+jQuery(this).find(".set_b_style").text()+'",';
-			maccive += '"html": "'+jQuery(this).find('.set_b_html').text()+'",';
+			maccive += '/ban87;style/ban87;: /ban87;'+jQuery(this).find(".set_b_style").text()+'/ban87;,';
+			maccive += '/ban87;html/ban87;: /ban87;'+jQuery(this).find('.set_b_html').text()+'/ban87;,';
 		}
 		else {
-			maccive += '"img": "'+jQuery(this).find('.set_b_img').text()+'",'; 	
+			maccive += '/ban87;img/ban87;: /ban87;'+jQuery(this).find('.set_b_img').text()+'/ban87;,'; 	
 		}
-		maccive += '"animation": "'+jQuery(this).find('.set_b_animation').text()+'",';
-		maccive += '"easing": "'+jQuery(this).find('.set_b_easing').text()+'",';
-		maccive += '"speed": "'+jQuery(this).find('.set_b_speed').text()+'",';
-		maccive += '"x": "'+jQuery(this).find('.set_b_x').text()+'",';
-		maccive += '"y": "'+jQuery(this).find('.set_b_y').text()+'"}'; 		
+		maccive += '/ban87;animation/ban87;: /ban87;'+jQuery(this).find('.set_b_animation').text()+'/ban87;,';
+		maccive += '/ban87;easing/ban87;: /ban87;'+jQuery(this).find('.set_b_easing').text()+'/ban87;,';
+		maccive += '/ban87;speed/ban87;: /ban87;'+jQuery(this).find('.set_b_speed').text()+'/ban87;,';
+		maccive += '/ban87;delay/ban87;: /ban87;'+jQuery(this).find('.set_b_delay').text()+'/ban87;,';
+		maccive += '/ban87;x/ban87;: /ban87;'+jQuery(this).find('.set_b_x').text()+'/ban87;,';
+		maccive += '/ban87;y/ban87;: /ban87;'+jQuery(this).find('.set_b_y').text()+'/ban87;}'; 		
 		
 		count++;
 		if(count == count_slide) {maccive += '}';}
@@ -172,16 +179,16 @@ jQuery(document).ready(function() {
 		
 	/* ajax save function */
 	jQuery('#start_submit').live('click',function() {
-		data = 'name=' + get_parameters()+'&id='+id; 
-		jQuery.ajax({
-			type: 'POST',
-		    cache: false,  
-			url: 'http://localhost/Wordpress/wp-content/plugins/bannermaker/scripts/save-layers.php',
-			data: data,
-			success: function(html) {
-				jQuery('#banner_form_set').submit();
-			}
-		});
+		jQuery.post(
+		   ajaxurl, 
+		   {
+			  'action': 'banner_save_settings',
+			  'name'  : get_parameters(), 		  
+			  'id'    : id
+		   }, 
+		   function(response){
+			  jQuery('#banner_form_set').submit();
+		   });
 	});
 	
 	/* Add text*/

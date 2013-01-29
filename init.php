@@ -12,7 +12,7 @@ add_action('admin_init', 'banner_admin_style');
 function banner_admin_scripts() {
 	
 	wp_deregister_script	("jquery-banner");
-	wp_register_script		("jquery-banner", "http://code.jquery.com/jquery-1.8.0.min.js", false, "1.8.0", true);
+	wp_register_script		("jquery-banner", "http://code.jquery.com/jquery-1.8.2.min.js", false, "1.8.2", true);
 	wp_enqueue_script		("jquery-banner");
 	
 	wp_enqueue_script('media-upload');
@@ -30,7 +30,7 @@ add_action('admin_init', 'banner_admin_scripts');
 function banner_init() {
 	
 	wp_deregister_script	("jquery-banner-show");
-	wp_register_script		("jquery-banner-show", "http://code.jquery.com/jquery-1.8.0.min.js", false, "1.8.0", true);
+	wp_register_script		("jquery-banner-show", "http://code.jquery.com/jquery-1.8.2.min.js", false, "1.8.2", true);
 	wp_enqueue_script		("jquery-banner-show");
 	
 	wp_enqueue_script('easing',  plugins_url('/js/easing.js', __FILE__),array('jquery-banner-show'), '20131801', false );
