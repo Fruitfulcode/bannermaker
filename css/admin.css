@@ -1,3 +1,50 @@
+/* front admin page css */
+#banners_page {font-size: 12px; font-weight: bold; width: 940px; color: #333}
+#banners_page a{font-size: 12px; font-weight: bold; color: #333}
+#banners_page a:hover{color: #333}
+#banners_page #logo {float: left;padding: 10px 10px 20px 0px}
+#banners_page h2 {font-size: 22px; float:left;margin-top: 20px;}
+
+#banners_page table {clear: both; border: none; border-collapse: collapse } 
+#banners_page thead{	background: url('../img/head-line.jpg') repeat-x; color: #d2d2d2; text-shadow: 0 1px 0 black }
+#banners_page thead tr td{height: 29px; line-height: 27px; border-bottom: none }
+#banners_page tr td:first-child {padding-left: 10px }
+#banners_page tr td{border-bottom: 1px solid #d2d2d2; height: 36px }
+#banners_page .grid_B_1{width: 70px }
+#banners_page .grid_B_2{width: 160px }
+#banners_page .grid_B_3{width: 275px }
+
+#banners_page .pink {background-color: #fffbf9;}
+
+#banners_page .edit_but, 
+#banners_page .copy_but,
+#banners_page .delete_but,
+#banners_page .click,
+#banners_page .view_but    {padding-left: 25px;text-decoration: none;}
+
+#banners_page .edit_but 	  {background: url('../img/ico_edit.jpg') no-repeat; margin-left: 10px;}
+#banners_page .copy_but 	  {background: url('../img/ico_delete.jpg') no-repeat; margin-left: 10px;}
+#banners_page .delete_but {background: url('../img/ico_copy.jpg') no-repeat; margin-left: 10px;}
+#banners_page .click		  {background: url('../img/ico_click.jpg') no-repeat;}
+#banners_page .view_but 	  {background: url('../img/ico_view.jpg') no-repeat;}
+
+#banners_page .add_banner {float: right;margin-top: 10px;}
+
+
+/* end front admin page css */
+
+
+
+
+
+
+
+
+
+
+
+
+
 #settings-container {
 	border: 1px solid black;
 	float: left;
@@ -178,15 +225,6 @@
 	resize: none;
 }
 /* ----- */
-.grid_B_1{
-	width: 60px;
-}
-.grid_B_2{
-	width: 250px;
-}
-.grid_B_3{
-	width: 350px;
-}
 
 .marginleft{margin-left: 70px;}
 

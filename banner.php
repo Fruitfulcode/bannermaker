@@ -44,6 +44,7 @@ function banner_install () {
 			`height` INT NOT NULL,
 			`width` INT NOT NULL,
 			`url` VARCHAR(255) NOT NULL default '',
+			`click` INT NOT NULL,
 			`background` VARCHAR(255) NOT NULL default '',
             UNIQUE KEY id (id)
         )CHARACTER SET=utf8";
@@ -97,16 +98,22 @@ function banner_add_pages() {
 
 
 function banner_page() {
-    echo "<h2>Banner Maker</h2>";
+
+    echo "<div id='banners_page'><img id='logo' src='".plugins_url('/img/banner_logo.jpg',__FILE__)."' /><h2>Banner Maker</h2>";
 	
 	$active = getBannerPage();
  
 	$out = '<table>';
-	$out .= '<tr><td class="grid_B_1">ID</td><td class="grid_B_2">Name</td><td class="grid_B_2">Shortcode</td><td class="grid_B_3">Action</td></tr>';
+	$out .= '<thead><tr><td class="grid_B_1">ID</td>
+				 <td class="grid_B_2">Name</td>
+				 <td class="grid_B_3">Shortcode</td>
+				 <td class="grid_B_3">Settings</td>
+				 <td class="grid_B_1">Clicks</td>
+				 <td class="grid_B_1">Preview</td></tr></thead>';
 	$out .= get_my_banners();
 	$out .= '</table>';
 	
-	$out .= "<a class='blue_a_but' href='".$_SERVER["PHP_SELF"]."?page=banner&status=create'>Add layer</a>";
+	$out .= "<a class='add_banner' href='".$_SERVER["PHP_SELF"]."?page=banner&status=create'>Add layer</a></div>";
 	
 	if($active == "show" or !$active or $active == "delete")	{	echo $out;	}
 
@@ -115,6 +122,7 @@ function banner_page() {
 /*Art - get banners  */
 function get_my_banners() {
 	global $wpdb;
+	$count = 0;
 	
 	$banner_prefs_table = BASE_BANNER;
 	
@@ -122,15 +130,21 @@ function get_my_banners() {
 	$check = $wpdb->get_results($sql);
    	
 	foreach($check as $line){
-		$out .= '<tr>';
+		$count++;
+		$prefix = ($count%2 == 0) ? 'pink' : '';
+		$out .= '<tr class='.$prefix.'>';
 		$id = '';
 			foreach($line as $key  => $value){
-					if($key == "id")		{ 	$out .= '<td class="grid_B_1">'.$value.'</td>';$id = $value;	}
-					if($key == "name")		{ 	$out .= '<td class="grid_B_2">'.$value.'</td>';					}
+					if($key == "id")		{ 	$out .= '<td>'.$value.'</td>';$id = $value;	}
+					if($key == "name")		{ 	$out .= '<td>'.$value.'</td>';					}
 			}
-		$out .= '<td class="grid_B_2">[bannermaker id="'.$id.'"]</td>'; 	
-		$out .= '<td class="grid_B_3"><a href="'.$_SERVER["PHP_SELF"].'?page=banner&status=edit&id='.$id.'" class="green_e_but">edit</a>';
-		$out .= '<a href="'.$_SERVER["PHP_SELF"].'?page=banner&status=delete&id='.$id.'" class="red_d_but">delete</a></td>';
+		$out .= '<td>[bannermaker id="'.$id.'"]</td>'; 	
+		$out .= '<td><a href="'.$_SERVER["PHP_SELF"].'?page=banner&status=edit&id='.$id.'" class="edit_but">edit</a>';
+		$out .= '<a href="'.$_SERVER["PHP_SELF"].'?page=banner&status=copy&id='.$id.'" class="copy_but">copy</a>';
+		$out .= '<a href="'.$_SERVER["PHP_SELF"].'?page=banner&status=delete&id='.$id.'" class="delete_but">delete</a></td>';
+		$out .= '<td><a class="click" href="">0</a></td>'; 	
+		$out .= '<td><a href="" class="view_but">viev</a></td>'; 	
+		
 		$out .= '</tr>';
 	}
 	

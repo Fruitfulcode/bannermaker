@@ -199,7 +199,13 @@ function get_parameters() {
 	
 	return maccive;
 }
-function load_image(status_img_load = true,offset = 0) {
+function load_image(status_img_load,offset) {
+	if (status_img_load == null) {
+        status_img_load = true;
+    }
+	if (offset == null) {
+        offset = 0;
+    }
 	window.send_to_editor = function(html) {
 		imgurl = jQuery('img',html).attr('src');
 		

@@ -38,7 +38,7 @@ function get_banner_out($atts) {
 		$banner_out = '<div class="banner_maker_container" id="bannermaker-'.$banner_macive['id'].'"style="width: '.$banner_macive['width'].'px;
 																			height: '.$banner_macive['height'].'px;
 																			background: '.$banner_macive['background'].' no-repeat;" >';
-		$banner_out 	 .= '<a href="'.$banner_macive['url'].'" target="_blank">';
+		$banner_out 	 .= '<a href="'.$banner_macive['url'].'" target="_blank" class="banner_go_link">';
 		$settings_macive = get_slide_settings($id);
 		
 		

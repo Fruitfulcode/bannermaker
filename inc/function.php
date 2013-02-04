@@ -150,6 +150,40 @@ function get_slide_settings($id) {
 	
 	return $settings_macive;
 }
+/* Counter banner */
+add_action('wp_ajax_banner_countre', 'banner_countre');
+
+function banner_countre() {
+	/*global $wpdb;
+	$banner_prefs_table = BASE_BANNER;
+	$banner_prefs_setting_table = BASE_SETTINGS;
+	
+	unset($sql);
+
+	$get_json = htmlspecialchars($_POST["set_lay"]);
+	$name = htmlspecialchars($_POST["name"]);
+	$height = htmlspecialchars($_POST["height"]);
+	$width = htmlspecialchars($_POST["width"]);
+	$url = htmlspecialchars($_POST["url"]);
+	$background = htmlspecialchars($_POST["background"]);
+	$id = htmlspecialchars($_POST["id"]);
+	$json = str_replace('/ban87;','"',$get_json);
+	
+	$sql = "UPDATE $banner_prefs_setting_table 
+			SET id='$id',settings='$json'
+			WHERE id=$id";
+	$wpdb->query($sql);
+	
+	unset($sql);
+	
+	$sql = "UPDATE $banner_prefs_table 
+					SET name='$name',height='$height',width='$width',url='$url',click='0',background='$background' 
+					WHERE id=$id";
+					
+	$wpdb->query($sql);*/
+	echo "some";
+}
+
 add_action('wp_ajax_banner_save_settings', 'banner_save_settings');
 
 function banner_save_settings() {
@@ -176,7 +210,7 @@ function banner_save_settings() {
 	unset($sql);
 	
 	$sql = "UPDATE $banner_prefs_table 
-					SET name='$name',height='$height',width='$width',url='$url',background='$background' 
+					SET name='$name',height='$height',width='$width',url='$url',click='0',background='$background' 
 					WHERE id=$id";
 					
 	$wpdb->query($sql);
@@ -203,7 +237,7 @@ function show_Banner_settings($id_creator = 0){
 		}
 	}
 ?>
-	<form id="banner_form_set" name="banner_opt" method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>?page=banner&amp;status=insert">;
+	<form id="banner_form_set" name="banner_opt" method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>?page=banner&amp;status=insert">
 	<div id="settings-container">
 		<h3>Genneral settings</h3>
 		<div class="set_general">Banner name:<input id="set_name" type='text' name="banner[banner_name]" value="<?php echo $name; ?>"></div>
