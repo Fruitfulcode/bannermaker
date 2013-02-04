@@ -33,6 +33,17 @@
 	border: 1px solid black;
 	position: relative;
 }
+/* reset */
+#settings-container #banner_working_board h1,
+#settings-container #banner_working_board h2,
+#settings-container #banner_working_board h3,
+#settings-container #banner_working_board h4,
+#settings-container #banner_working_board h5,
+#settings-container #banner_working_board h6,
+#settings-container #banner_working_board p,
+#settings-container #banner_working_board span,
+#settings-container #banner_working_board b {margin: 0;padding: 0;}
+/* end */
 .blue_a_but,
 .green_e_but,
 .red_d_but,
@@ -89,7 +100,7 @@
 	float:left;
 	border: 1px solid black;
 	margin-bottom: 20px;
-	height: 440px;
+	height: 585px;
 }
 #settings-container #settings-area #layers-order #layers-order-list {
 	margin:0;
@@ -103,6 +114,10 @@
 	background: beige;
 	border-bottom: 1px solid black;
 	margin: 0;
+}
+#settings-container #settings-area #layers-order #layers-order-list .slide .show_hode {
+	float: right;
+	margin-right: 10px;
 }
 #settings-container #settings-area #layers-order #layers-order-list .slide .banner_parameters{
 	display: none;
@@ -176,4 +191,4 @@
 .marginleft{margin-left: 70px;}
 
 .banner_block_drag {position:absolute!important;top: 0px;left: 0px;}
-.drop_active {border: 1px solid red;}
+.drop_active {box-shadow: 0px 0px 4px red;}

@@ -1,6 +1,7 @@
 <?php
-function getBannerPage($initVar = ""){
-			$var = $initVar;
+function getBannerPage(){
+			unset($var);
+			
 			if(isset($_GET['status'])) $var = $_GET['status'];
 			
 				switch($var){
@@ -13,12 +14,7 @@ function getBannerPage($initVar = ""){
 						$var = 'active';
 					break;
 					case "insert":
-						change_Banner(true);
-						$var = 'show';
-					break;
-					case "update":
-						change_Banner(false);
-						show_Banner_settings();
+						change_Banner();
 						$var = 'active';
 					break;
 					case "delete":
@@ -32,43 +28,51 @@ function getBannerPage($initVar = ""){
 function delete_Banner(){
 	global $wpdb;
 	$banner_prefs_table = BASE_BANNER;
+	$banner_prefs_delete = BASE_SETTINGS;
 	
-	if(isset($_GET['id'])) $id = $_GET['id'];
-	
-	$sql = "DELETE FROM $banner_prefs_table WHERE id=".$id."";
-	$wpdb->query($sql);
+	if(isset($_GET['id'])) {
+		$id = $_GET['id'];
+		$sql = "DELETE FROM $banner_prefs_table WHERE id=".$id."";
+		$wpdb->query($sql);
+		$sql_del = "DELETE FROM $banner_prefs_delete WHERE id=".$id."";
+		$wpdb->query($sql_del);
+	}
 }
 
-function change_Banner($status = true){
+function change_Banner(){
 	global $wpdb;
 	$banner_prefs_table = BASE_BANNER;
 	unset($sql);
+
+	if(isset($_POST['banner'])) { 
 	
-	if(isset($_POST['banner_name'])) 	   { $name = $_POST['banner_name']; 	  }
-	if(isset($_POST['banner_w']))	 	   { $width = $_POST['banner_w'];  		  }
-	if(isset($_POST['banner_h']))    	   { $height = $_POST['banner_h'];  	  }
-	if(isset($_POST['banner_url'])) 	   { $url = $_POST['banner_url']; 		  }
-	if(isset($_POST['radio_res']))   	   { $res = $_POST['radio_res']; 		  }
-	if(isset($_POST['banner_upload'])) 	   { $back = $_POST['banner_upload']; }
+		$maccive = $_POST['banner']; 	   
+
+		/* add banner*/	
+		$sql = "INSERT INTO $banner_prefs_table (name,height,width,url,background) 
+				VALUES('$maccive[banner_name]','$maccive[banner_h]','$maccive[banner_w]','$maccive[banner_url]','$maccive[banner_upload]');";
+		$wpdb->query($sql);		
 		
-	if($status == true)	 {	$sql = "INSERT INTO $banner_prefs_table (name,height,width,url,responsive,background) 
-							VALUES('$name','$height','$width','$url','$res','$back')"; }
-	if($status == false) {	
-		if(isset($_GET['id'])) { $id = $_GET['id']; 
-			$sql = "UPDATE $banner_prefs_table 
-					SET name='$name',height='$height',width='$width',url='$url',responsive='$res',background='$back' 
-					WHERE id=$id";
-					
+		/*get last id*/
+		unset($sql);
+		$sql = "SELECT LAST_INSERT_ID()";
+		$id = $wpdb->get_results($sql);
+		foreach($id as $line){
+			foreach($line as $key  => $value){
+				$id_set = $value;
+			}
 		}
-	}
+		
+		/* add setting layer */
+		unset($sql);
+		$sql = "INSERT INTO wp_banner_settings (id,settings) VALUES('$id_set','NULL')";
+		$wpdb->query($sql);	
 	
-	if($sql)	{ $wpdb->query($sql); }
+		show_Banner_settings($id_set);
+	}
 }
 /*show layers settings*/
 function get_list_settings_layers($id = null){
-	global $wpdb;
-	$banner_prefs_table = BASE_SETTINGS;
-	unset($sql);
 	unset($out);
 	unset($set_out);
 	unset($set_slides);
@@ -89,16 +93,20 @@ function get_list_settings_layers($id = null){
 			$set_out .= '<span class="set_b_easing">'.$value_key['easing'].'</span>';	
 			$set_out .= '<span class="set_b_speed">'.$value_key['speed'].'</span>';	
 			$set_out .= '<span class="set_b_delay">'.$value_key['delay'].'</span>';	
+			$set_out .= '<span class="set_b_animation_out">'.$value_key['animation_out'].'</span>';
+			$set_out .= '<span class="set_b_easing_out">'.$value_key['easing_out'].'</span>';	
+			$set_out .= '<span class="set_b_speed_out">'.$value_key['speed_out'].'</span>';	
+			$set_out .= '<span class="set_b_delay_out">'.$value_key['delay_out'].'</span>';	
 			$set_out .= '<span class="set_b_x">'.$value_key['x'].'</span>';			
 			$set_out .= '<span class="set_b_y">'.$value_key['y'].'</span>';		
    		    $set_out .= '<span class="set_b_img">'.$value_key['img'].'</span>';		
-							
+										
 			if($value_key['img'])	{	$temp_body = '<img src="'.$value_key['img'].'"/>';	}
 			else			{	$temp_body = html_entity_decode($value_key['html']);	}
 			
 			$set_slides .= '<div id="layer-'.$count.'" class="'.$value_key['style'].' banner_block_drag" style="display: inline-block;top:'.$value_key['y'].';left:'.$value_key['x'].';">'.$temp_body.'</div>';
 			$set_out .='</div>';
-			$out .= $set_out.'<span class="layer_counter">'.$count.'</span></li>';
+			$out .= $set_out.'<span class="layer_counter">'.$count.'</span><span class="show_hode">'.$value_key['visibility'].'</span></li>';
 			
 			$count++;
 		}
@@ -124,11 +132,11 @@ function get_slide_settings($id) {
 	$sql = "select settings from $banner_prefs_table where id=".$id."";
 	$get_settings = $wpdb->get_results($sql);
 		
-		foreach ($get_settings as $value) {
-			foreach ($value as $m_settings) {
-				$settings = json_decode($m_settings);
-			}
+	foreach ($get_settings as $value) {
+		foreach ($value as $m_settings) {
+			$settings = json_decode($m_settings);
 		}
+	}
 	
 	if($settings) {
 		foreach ($settings as $value_set) {
@@ -146,34 +154,39 @@ add_action('wp_ajax_banner_save_settings', 'banner_save_settings');
 
 function banner_save_settings() {
 	global $wpdb;
-	$banner_prefs_table = $wpdb->prefix.'banner_settings';
+	$banner_prefs_table = BASE_BANNER;
+	$banner_prefs_setting_table = BASE_SETTINGS;
+	
 	unset($sql);
 
-	$get_json = htmlspecialchars($_POST["name"]);
+	$get_json = htmlspecialchars($_POST["set_lay"]);
+	$name = htmlspecialchars($_POST["name"]);
+	$height = htmlspecialchars($_POST["height"]);
+	$width = htmlspecialchars($_POST["width"]);
+	$url = htmlspecialchars($_POST["url"]);
+	$background = htmlspecialchars($_POST["background"]);
 	$id = htmlspecialchars($_POST["id"]);
 	$json = str_replace('/ban87;','"',$get_json);
 	
-	$sql = "select settings from $banner_prefs_table where id=".$id."";
-	$status = $wpdb->get_results($sql);
+	$sql = "UPDATE $banner_prefs_setting_table 
+			SET id='$id',settings='$json'
+			WHERE id=$id";
+	$wpdb->query($sql);
+	
 	unset($sql);
-
-		if($status) {
-			$sql = "UPDATE $banner_prefs_table 
-					SET id='$id',settings='$json'
+	
+	$sql = "UPDATE $banner_prefs_table 
+					SET name='$name',height='$height',width='$width',url='$url',background='$background' 
 					WHERE id=$id";
-			$wpdb->query($sql);
-		}
-		else {
-			$sql = "INSERT INTO wp_banner_settings (id,settings) VALUES('$id','$json')";
-			$wpdb->query($sql);
-		}
+					
+	$wpdb->query($sql);
 }
-function show_Banner_settings(){
+function show_Banner_settings($id_creator = 0){
 	global $wpdb;
 	$banner_prefs_table = BASE_BANNER;
 	unset($id);
 	
-	if(isset($_GET['id'])) $id = $_GET['id'];
+	if(isset($_GET['id'])) { $id = $_GET['id']; } else { $id = $id_creator; }
 	
 	if($id)	{
 		$sql = "select * from $banner_prefs_table where id=".$id."";
@@ -185,33 +198,26 @@ function show_Banner_settings(){
 					if($key == "width")			{ $width = $value;	}
 					if($key == "height")		{ $height = $value;	}
 					if($key == "url")			{ $url = $value;	}
-					if($key == "responsive")	{ $res = $value;	}
 					if($key == "background")	{ $back = $value;	}
 			}
 		}
 	}
-	
-	if($id) { echo '<form id="banner_form_set" name="banner_opt" method="POST" action="'.$_SERVER["PHP_SELF"].'?page=banner&amp;status=update&amp;id='.$id.'">'; }
-	else    { echo '<form id="banner_form_set" name="banner_opt" method="POST" action="'.$_SERVER["PHP_SELF"].'?page=banner&amp;status=insert">'; }
 ?>
+	<form id="banner_form_set" name="banner_opt" method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>?page=banner&amp;status=insert">;
 	<div id="settings-container">
 		<h3>Genneral settings</h3>
-		<div class="set_general">Banner name:<input type='text' name="banner_name" value="<?php echo $name; ?>"></div>
+		<div class="set_general">Banner name:<input id="set_name" type='text' name="banner[banner_name]" value="<?php echo $name; ?>"></div>
 		<div class="set_general">Banner size:
-			<label>Height<input id="set_height" name="banner_h" type='text' value="<?php echo $height; ?>"></label>
-			<label>Width<input id="set_width" name="banner_w" type='text' value="<?php echo $width; ?>"></label>
+			<label>Height<input id="set_height" name="banner[banner_h]" type='text' value="<?php echo $height; ?>" /></label>
+			<label>Width<input id="set_width" name="banner[banner_w]" type='text' value="<?php echo $width; ?>" /></label>
 		</div>
-		<div class="set_general">Banner URL:<input type='text' name='banner_url' value="<?php echo $url; ?>"></div>
-		<div class="set_general">Layout type:
-			<label><input class="marginleft" type="radio" name="radio_res" value="no"> Fixed</label>
-			<label><input type="radio" checked="" name="radio_res" value="yes"> Responsive</label>
-		</div>
+		<div class="set_general">Banner URL:<input id="set_url" type='text' name='banner[banner_url]' value="<?php echo $url; ?>" /></div>
 		
 		<h3>Layers settings</h3>
-		<div id="banner_working_board" style="background: url('<?php echo $back;?>') no-repeat;">
+		<div id="banner_working_board" style="background: <?php echo $back;?> no-repeat;">
 			<?php $banner_layers = get_list_settings_layers($id);?>
 		</div>
-		<input id="banner_upload" type="text" size="36" name="banner_upload" value="<?php echo $back;?>" style="display: none"/>	
+		<input id="banner_upload" type="text" size="36" name="banner[banner_upload]" value="<?php echo $back;?>" style="display: none"/>	
 		<input id="banner_upload_image" type="button" class="blue_a_but" value="Add: Background" />
 	</form>
 	<?php if($id) { ?>
@@ -251,6 +257,23 @@ function show_Banner_settings(){
 				<label>Delay 
 					<input type="text" disabled="disabled" id="banner_delay"></input>
 				</label>
+				<label>Out - Animation 
+					<select disabled="disabled" id="banner_animation_out">
+						<option> off </option>
+						<?php show_Banner_effect(); ?>
+					</select>
+				</label>
+				<label>Out - Easing 
+					<select disabled="disabled" id="banner_easing_out">
+						<?php show_Banner_effect('Easing'); ?>
+					</select>
+				</label>
+				<label>Out - Speed 
+					<input type="text" disabled="disabled" id="banner_speed_out"></input>
+				</label>
+				<label>Out - Delay 
+					<input type="text" disabled="disabled" id="banner_delay_out"></input>
+				</label>
 				<label>X 
 					<input type="text" disabled="disabled" id="banner_x"></input>
 				</label>
@@ -263,12 +286,13 @@ function show_Banner_settings(){
 				<ul id="layers-order-list"><?php echo $banner_layers;?></ul>
 			</div>
 		</div>
+		<div id="save_changes" style="display: none;position: fixed;left: 50%;top:50%;">save</div>
 	<?php } ?>
 	</div>
 	<div style="clear:both;"></div>
 	<?php 
-	if($id) {	echo "<input id='start_submit' class='blue_a_but' type='button' name='banner_opt_btn' value='Save' role=".$id.">";	}
-	else 	{	echo "<input id='start_submit' class='blue_a_but' type='button' name='banner_opt_btn' value='Create' role=".$id.">";	}
+	if($id) {	echo "<input id='update_submit' class='blue_a_but' type='button' name='banner_opt_btn' value='Save' role=".$id.">";	}
+	else 	{	echo "<input id='create_submit' class='blue_a_but' type='button' name='banner_opt_btn' value='Create'>";	}
 	echo "<a class='blue_a_but' href='".$_SERVER["PHP_SELF"]."?page=banner'>back</a>";
 }
 ?>

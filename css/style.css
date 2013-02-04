@@ -1,14 +1,27 @@
 body {
 	background-color: red
 }
-.banner_maker_container {
+body .banner_maker_container {
 	position: relative;
 	display: block;
     overflow: hidden
 }
-.banner_maker_container .banner_slide {
+body .banner_maker_container .banner_slide {
 	position: absolute;
-	/*display: none*/
+	display: block;
 }
+body .banner_maker_container img {
+	box-shadow: none;
+}
+body .banner_maker_container
 
+body .banner_maker_container h1,
+body .banner_maker_container h2,
+body .banner_maker_container h3,
+body .banner_maker_container h4,
+body .banner_maker_container h5,
+body .banner_maker_container h6,
+body .banner_maker_container p,
+body .banner_maker_container span,
+body .banner_maker_container b {margin: 0;padding: 0;line-height: 1;}
 	

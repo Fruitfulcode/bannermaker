@@ -8,18 +8,22 @@ Author URI: http://fruitfulcode.com
 */
 global $wpdb;
 
+$currentFile = __FILE__;
+$currentFolder = dirname($currentFile);
+
 // base prefix
 define('BASE_BANNER', $wpdb->prefix . 'banner_maker');
 define('BASE_SETTINGS', $wpdb->prefix . 'banner_settings');
 
 //file folders
-define('BANNER_DIR',__FILE__);
-define('BANNER_INC','/inc');
-define('BANNER_SCRIPTS','/scripts');
+define('BANNER_DIR',plugin_basename( __FILE__ ));
+define('BANNER_INC',$currentFolder . '/inc');
+define('BANNER_SCRIPTS',$currentFolder . '/scripts');
 
 //include  files
 require_once BANNER_INC.'/effect.php';
 require_once BANNER_INC.'/function.php';
+require_once BANNER_INC.'/shortcode.php';
 require_once 'init.php';
 
 register_activation_hook(BANNER_DIR,'banner_install');
@@ -40,10 +44,9 @@ function banner_install () {
 			`height` INT NOT NULL,
 			`width` INT NOT NULL,
 			`url` VARCHAR(255) NOT NULL default '',
-			`responsive` VARCHAR(255) NOT NULL default '',
 			`background` VARCHAR(255) NOT NULL default '',
             UNIQUE KEY id (id)
-        )";
+        )CHARACTER SET=utf8";
         
         dbDelta($sql); 
     }
@@ -55,7 +58,7 @@ function banner_install () {
             `id` INT NOT NULL,
             `settings` LONGTEXT NOT NULL default '',
 			 UNIQUE KEY id (id)
-        )";
+        )CHARACTER SET=utf8";
         
 		dbDelta($sql); 
     }
@@ -75,11 +78,11 @@ function banner_delete () {
       $sql = "DROP TABLE `" . $banner_prefs_table . "`";
       $wpdb->query($sql);
 	}
+	unset($sql);
+	$banner_prefs_setting_table = BASE_SETTINGS;
 	
-	$banner_prefs_table = BASE_SETTINGS;
-	
-	if($wpdb->get_var("SHOW TABLES LIKE '$banner_prefs_table'") != $banner_prefs_table) {
-      $sql = "DROP TABLE `" . $banner_prefs_table . "`";
+	if($wpdb->get_var("SHOW TABLES LIKE '$banner_prefs_setting_table'") != $banner_prefs_setting_table) {
+      $sql = "DROP TABLE `" . $banner_prefs_setting_table . "`";
       $wpdb->query($sql);
     }
 	
@@ -97,7 +100,7 @@ function banner_page() {
     echo "<h2>Banner Maker</h2>";
 	
 	$active = getBannerPage();
-	
+ 
 	$out = '<table>';
 	$out .= '<tr><td class="grid_B_1">ID</td><td class="grid_B_2">Name</td><td class="grid_B_2">Shortcode</td><td class="grid_B_3">Action</td></tr>';
 	$out .= get_my_banners();
@@ -133,76 +136,4 @@ function get_my_banners() {
 	
 	return $out;
 } 
-
-/* Art - shortcode */
-function get_banner_out($atts) {
-
-	extract(shortcode_atts(array(
-		  'id' => ''
-		  ),$atts));	
-	
-	global $wpdb;
-	$banner_prefs_table = BASE_BANNER;
-	$count = 0;
-	unset($banner_macive);
-	unset($settings_macive);
-	unset($banner_out);
-	unset($sql);
-	unset($get_settings);
-	unset($script);
-	
-	$sql = "select * from $banner_prefs_table where id=".$id."";
-	$get_settings = $wpdb->get_results($sql);
-	
-	if(!$get_settings) { 
-		echo '<h1 style="color: red;">Please enter the correct id banner!!!</h1>';
-	}
-	if( $get_settings) {
-		
-		$script = '<script type="text/javascript">var jQuery182 = $.noConflict(); jQuery182(function($){';
-				
-		foreach($get_settings as $line){
-			foreach($line as $key  => $value){
-				$banner_macive[$key] = $value;
-			}
-		}
-				
-		$banner_out = '<div class="banner_maker_container" id="bannermaker-'.$banner_macive['id'].'"style="width: '.$banner_macive['width'].'px;
-																			height: '.$banner_macive['height'].'px;
-																			background: url('.$banner_macive['background'].') no-repeat;" >';
-		$banner_out 	 .= '<a href="'.$banner_macive['url'].'" target="_blank">';
-		$settings_macive = get_slide_settings($id);
-		
-		foreach ($settings_macive as $value_key) {
-			if($value_key['img'])	{	$temp_body = '<img src="'.$value_key['img'].'"/>';	}
-			else					{	$temp_body = html_entity_decode($value_key['html']);					}
-		
-			$banner_out .= get_Banner_slide (	$value_key['animation'],
-												$value_key['x'],
-												$value_key['y'],
-												$count,
-												$temp_body,
-												$banner_macive['width'],
-												$banner_macive['height']
-											);
-		
-			$script		.= get_Banner_script(	$value_key['animation'],
-												$value_key['x'],
-												$value_key['y'],
-												$value_key['speed'],
-												$value_key['easing'],
-												$count
-											);
-											
-			$count++;
-		}
-			
-		$banner_out 	 .= '</a></div>';
-		$script .= '});</script>';
-		
-		echo $banner_out;
-		echo $script;
-	} 
-}
-add_shortcode('bannermaker','get_banner_out');
 ?>
