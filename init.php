@@ -34,6 +34,7 @@ function banner_init() {
 	wp_enqueue_script		("jquery-banner-show");
 	
 	wp_enqueue_script('easing',  plugins_url('/js/easing.js', __FILE__),array('jquery-banner-show'), '20131801', false );
+	wp_enqueue_script('no-conflict',  plugins_url('/js/noconflict.js', __FILE__),array('jquery-banner-show'), '20131801', false );
 	
 	wp_register_style( 'banner_slyle', plugins_url('/css/style.css', __FILE__));
 	wp_enqueue_style( 'banner_slyle');

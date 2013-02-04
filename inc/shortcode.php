@@ -24,14 +24,16 @@ function get_banner_out($atts) {
 	}
 	if( $get_settings) {
 		
-		$script = '<script type="text/javascript">var jQuery182 = $.noConflict(); function anim($){';
-		$script_for_null = '<script type="text/javascript">function sett($){';
-		
 		foreach($get_settings as $line){
 			foreach($line as $key  => $value){
 				$banner_macive[$key] = $value;
 			}
 		}
+		
+		$script = '<script type="text/javascript">function anim'.$banner_macive['id'].'($){';
+		$script_for_null = '<script type="text/javascript">function sett'.$banner_macive['id'].'($){';
+		
+		
 				
 		$banner_out = '<div class="banner_maker_container" id="bannermaker-'.$banner_macive['id'].'"style="width: '.$banner_macive['width'].'px;
 																			height: '.$banner_macive['height'].'px;
@@ -54,20 +56,21 @@ function get_banner_out($atts) {
 			
 			if ($max_delay < $delay) { $max_delay = $delay; }
 			
-			$get_value = get_Banner_slide (	array(	  'animation_ef' => $value_key['animation'],
-													  'val_x' => $value_key['x'],
-													  'val_y' => $value_key['y'],
-													  'count' => $count,
-													  'temp_body' => $temp_body,
-													  'offset_x' => $banner_macive['width'],
-													  'offset_y' => $banner_macive['height'],
-													  'speed' => $value_key['speed'],
-													  'easing' => $value_key['easing'],
-													  'delay' => $value_key['delay'],
+			$get_value = get_Banner_slide (	array(	  'animation_ef'	 => $value_key['animation'],
+													  'val_x'			 => $value_key['x'],
+													  'val_y'			 => $value_key['y'],
+													  'count'			 => $count,
+													  'temp_body'		 => $temp_body,
+													  'offset_x' 		 => $banner_macive['width'],
+													  'offset_y' 		 => $banner_macive['height'],
+													  'speed'			 => $value_key['speed'],
+													  'easing'			 => $value_key['easing'],
+													  'delay'			 => $value_key['delay'],
 													  'animation_ef_out' => $value_key['animation_out'],
-													  'easing_out' => $value_key['easing_out'],
-													  'speed_out' => $value_key['speed_out'],
-													  'delay_out' => $value_key['delay_out']
+													  'easing_out' 		 => $value_key['easing_out'],
+													  'speed_out'		 => $value_key['speed_out'],
+													  'delay_out' 		 => $value_key['delay_out'],
+													  'id'				 => $banner_macive['id']										  
 											));
 			
 			$banner_out .= $get_value['slides'];
@@ -77,9 +80,9 @@ function get_banner_out($atts) {
 			$count++;
 		}
 		
-		$script_for_null .= 'anim();}</script>';
+		$script_for_null .= 'anim'.$banner_macive['id'].'();}</script>';
 		$banner_out 	 .= '</a></div>';
-		$script .= 'setTimeout("sett()",'.($max_delay+5000).');}anim();</script>';
+		$script .= 'setTimeout("sett'.$banner_macive['id'].'()",'.($max_delay+5000).');}anim'.$banner_macive['id'].'();</script>';
 		
 		echo $banner_out;
 		echo $script;
