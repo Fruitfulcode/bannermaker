@@ -104,7 +104,7 @@ function banner_page() {
 	
 	$active = getBannerPage();
 	
-	if($active == "show" or !$active or $active == "delete")	{
+	if($active == "show" or !$active or $active == "delete" or $active == "copy")	{
 	    $out .= "<div id='banners_page'><table>";
 		$out .= '<thead><tr><td class="grid_B_1">ID</td>
 					 <td class="grid_B_2">Name</td>

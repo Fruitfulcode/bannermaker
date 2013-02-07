@@ -1,6 +1,6 @@
 /* front admin page css */
 #head_line #logo {float: left;padding: 10px 10px 20px 0px}
-#head_line h2 {font-size: 22px; float:left;margin-top: 20px;}
+#head_line h2  {font-size: 22px; float:left;margin-top: 20px;}
 #banners_page {font-size: 12px; font-weight: bold; width: 940px; color: #333}
 #banners_page a,#settings-container a{font-size: 12px; font-weight: bold; color: #333; text-decoration: none; cursor: pointer }
 
@@ -22,8 +22,8 @@
 #banners_page .view_but    {padding-left: 25px;text-transform: capitalize }
 
 #banners_page .edit_but 	  {background: url('../img/ico_edit.jpg') no-repeat; margin-left: 10px }
-#banners_page .copy_but 	  {background: url('../img/ico_delete.jpg') no-repeat; margin-left: 10px }
-#banners_page .delete_but {background: url('../img/ico_copy.jpg') no-repeat; margin-left: 10px }
+#banners_page .copy_but 	  {background: url('../img/ico_copy.jpg') no-repeat; margin-left: 10px }
+#banners_page .delete_but {background: url('../img/ico_delete.jpg') no-repeat; margin-left: 10px }
 #banners_page .click		  {background: url('../img/ico_click.jpg') no-repeat }
 #banners_page .view_but 	  {background: url('../img/ico_view.jpg') no-repeat }
 
@@ -85,7 +85,6 @@
 	margin-bottom: 20px;
 	width: 700px;
 	height: 350px;
-	background-color: #888;
 	position: relative 
 }
 /* coordination */
@@ -98,7 +97,7 @@
 #settings-container .action_button_big {padding: 11px 20px; color: white;   border: 1px solid #fe6825; text-shadow: 0px 1px 1px #962e00; background: url('../img/button_action-big.jpg') repeat-x }
 #settings-container .grey_button 	    {padding: 5px  20px; color: #7b7b7c; border: 1px solid #d1d1d1; text-shadow: 0px 1px 1px white;   background: url('../img/button_grey.jpg') repeat-x; margin-left: 12px } 
 #settings-container .grey_button_big     {padding: 11px 20px; color: #7b7b7c; border: 1px solid #d1d1d1; text-shadow: 0px 1px 1px white;   background: url('../img/button_grey_big.jpg') repeat-x; margin-left: 12px }
-
+#settings-container  #del_background      {display: none }
 #settings-container #settings-area {	width: 900px; float:left }
 #settings-container #settings-area .setting_block {width: 450px; float:left }
 
@@ -122,6 +121,7 @@
 	border-bottom: 1px solid #b6b6b6;
 	margin: 0 
 }
+#settings-container #settings-area #layers-order #layers-order-list .slide .layer_type {margin-left: 42px;}
 #settings-container #settings-area #layers-order #layers-order-list .slide .layer_counter {font-size: 13px;color: #424242 }
 #settings-container #settings-area #layers-order #layers-order-list .slide .show_hode {float: right;background: url('../img/show-hide.png') no-repeat;width: 16px; height: 10px; margin-top: 8px }
 #settings-container #settings-area #layers-order #layers-order-list .slide  .show_hidden {background-position: 0px -10px }

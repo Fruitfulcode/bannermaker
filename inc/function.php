@@ -21,10 +21,26 @@ function getBannerPage(){
 						delete_Banner();
 						$var = 'delete';
 					break;
+					case "copy":
+						copy_Banner();
+						$var = 'copy';
+					break;
 				}
 	return $var;
 }
-
+function copy_Banner () {
+/*	global $wpdb;
+	$banner_prefs_table = BASE_BANNER;
+	$banner_prefs_delete = BASE_SETTINGS;
+	
+	if(isset($_GET['id'])) {
+		$id = $_GET['id'];
+		$sql = "SELECT * INTO Tabs FROM $banner_prefs_table WHERE id=".$id." ALTER TABLE Tabs DROP COLUMN CID INSERT INTO $banner_prefs_table SELECT * FROM Tabs DROP TABLE Tabs ";
+		$tabl1 = $wpdb->query($sql);
+		$sql_del = "SELECT * FROM $banner_prefs_delete WHERE id=".$id."";
+		$tabl2 = $wpdb->query($sql_del);
+	}*/
+}
 function delete_Banner(){
 	global $wpdb;
 	$banner_prefs_table = BASE_BANNER;
@@ -231,13 +247,14 @@ function show_Banner_settings($id_creator = 0){
 		<label>Set background image for banner</label>
 			<input id="banner_upload" type="text" size="36" name="banner[banner_upload]" value="<?php echo $back;?>" style="display: none"/>	
 			<a id="banner_upload_image" class="action_button_big">Add Background</a>
+			<a id="del_background">delete background</a>
 		<h3>Layout</h3>
 		<label>This is how you banner will be display</label>
 		<div id="coordination">
 			<span id="coordnt_start"></span>
 			<span id="coordnt_x"></span>
 			<span id="coordnt_y"></span>
-			<div id="banner_working_board" style="background: <?php echo $back;?> no-repeat;">
+			<div id="banner_working_board" style="<?php if($back != 'none') { echo 'background: url('.$back.') no-repeat;'; } ?>">
 				<?php $banner_layers = get_list_settings_layers($id);?>
 			</div>
 		</div>
@@ -301,14 +318,13 @@ function show_Banner_settings($id_creator = 0){
 			</div>
 		</div>
 		<div class="setting_block">
-			<div class="title-layers"><span>#   Type</span><span class="right">Show / Hide</span> </div>
+			<div class="title-layers"><span>Order</span><span>Type</span><span class="right">Show / Hide</span> </div>
 			<div id="layers-order">
 				<ul id="layers-order-list"><?php echo $banner_layers;?></ul>
 			</div>
 			<a id="banner_add_image" class="blue_a_but">	<img src="<?php echo BANNER_IMG.'/ico_add.png'; ?>" />Add image</a>
 			<a id="banner_add_text"  class="blue_a_but">	<img src="<?php echo BANNER_IMG.'/ico_addt.png'; ?>" />Add text</a>
 			<a id="banner_del_layer" class="delete_layer">	<img src="<?php echo BANNER_IMG.'/ico_del.png'; ?>"  />Remove layer</a>
-			<!--<a id="banner_del_all"   class="delete_all">Delete all</a>-->
 		</div>
 	</div>
 	
