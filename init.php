@@ -26,7 +26,7 @@ function banner_admin_scripts() {
 
 add_action( 'admin_enqueue_scripts', 'add_admin_options_and_styles' );
 
-function add_admin_options_and_styles($hook) {
+function add_banner_admin_options_and_styles($hook) {
 	if( 'toplevel_page_banner' != $hook ) return;
 	banner_admin_scripts() ;
 	banner_admin_style() ;
