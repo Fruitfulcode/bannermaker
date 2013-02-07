@@ -237,9 +237,9 @@ jQuery(document).ready(function() {
 		jQuery('#layers-order').find('.active_slide').removeClass('active_slide');
 		jQuery(this).addClass('active_slide');
 	});
-	/*jQuery('#create_submit').live('click',function() {
-		jQuery('#banner_form_set').submit();
-	});*/
+	jQuery('#create_submit').live('click',function() {
+		if(banner_validation()) { jQuery('#banner_form_set').submit(); } 
+	});
 	
 	jQuery('.show_hode').live('click',function() {
 		if(jQuery(this).attr('role') == 'hide') {

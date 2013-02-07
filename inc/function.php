@@ -220,10 +220,10 @@ function show_Banner_settings($id_creator = 0){
 			<input id="set_name" type='text' name="banner[banner_name]" value="<?php echo $name; ?>">
 		<h3>Banner size</h3>
 			<label>Set needed size for banner layout</label>
-		<h4>Width</h4>
-			<input class="small_in" id="set_width" name="banner[banner_w]" type='text' value="<?php echo $width; ?>" value="700" />
 		<h4>Height</h4>
 			<input class="small_in" id="set_height" name="banner[banner_h]" type='text' value="<?php echo $height; ?>" value="350" />
+		<h4>Width</h4>
+			<input class="small_in" id="set_width" name="banner[banner_w]" type='text' value="<?php echo $width; ?>" value="700" />
 		<h3>Banner URL:</h3>
 		<label>This reference for banner on click</label>
 			<input id="set_url" type='text' name='banner[banner_url]' value="<?php echo $url; ?>" />
