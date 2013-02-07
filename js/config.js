@@ -66,9 +66,13 @@ function change_form() {
 	/*width and height changes*/
 	
 	jQuery("#banner_working_board").width(jQuery("#set_width").val());
+	jQuery("#coordnt_x").width(parseInt(jQuery("#set_width").val())+1);
 	jQuery("#banner_working_board").height(jQuery("#set_height").val());
-	jQuery("#set_width").on('keyup',function()  { jQuery("#banner_working_board").width(jQuery("#set_width").val());   		});
-	jQuery("#set_height").on('keyup',function() { jQuery("#banner_working_board").height(jQuery("#set_height").val()); 		});
+	jQuery("#coordnt_y").height(parseInt(jQuery("#set_height").val())+1);
+	jQuery("#set_width").on('keyup',function()  { jQuery("#banner_working_board").width(jQuery("#set_width").val());   		
+												  jQuery("#coordnt_x").width(parseInt(jQuery("#set_width").val())+1);		});
+	jQuery("#set_height").on('keyup',function() { jQuery("#banner_working_board").height(jQuery("#set_height").val()); 		
+												  jQuery("#coordnt_y").height(parseInt(jQuery("#set_height").val())+1);		});
 	jQuery("#banner_x").change(function()	    { jQuery(".drop_active").css('left',parseInt(jQuery("#banner_x").val())); 	});
 	jQuery("#banner_y").change(function() 		{ jQuery(".drop_active").css('top',parseInt(jQuery("#banner_y").val()));	});
 		
@@ -158,7 +162,7 @@ function get_change_count_form() {
 	var count_slide = jQuery('#layers-order-list .slide').length;
 	var count = 0;
 	jQuery('#layers-order-list .slide').each(function(){
-		jQuery(this).find('.layer_counter').text(count);
+		jQuery(this).find('.layer_counter').text(count+'.');
 		jQuery('#banner_working_board').find('#'+jQuery(this).attr('role')).css('z-index',count);
 		count++;
 	});
@@ -190,7 +194,7 @@ function get_parameters() {
 		maccive += '/ban87;delay_out/ban87;: /ban87;'+jQuery(this).find('.set_b_delay_out').text()+'/ban87;,';
 		maccive += '/ban87;x/ban87;: /ban87;'+parseInt(jQuery(this).find('.set_b_x').text())+'px/ban87;,';
 		maccive += '/ban87;y/ban87;: /ban87;'+parseInt(jQuery(this).find('.set_b_y').text())+'px/ban87;,';
-		maccive += '/ban87;visibility/ban87;: /ban87;'+jQuery(this).find('.show_hode').text()+'/ban87;}'; 		
+		maccive += '/ban87;visibility/ban87;: /ban87;'+jQuery(this).find('.show_hode').attr('role')+'/ban87;}'; 		
 		
 		count++;
 		if(count == count_slide) {maccive += '}';}
@@ -216,7 +220,7 @@ function load_image(status_img_load,offset) {
 		else {
 			/* Add drag-image layer */
 			var count_slide = jQuery('#layers-order-list .slide').length;
-			jQuery('#layers-order-list').append("<li class='slide' role='layer-"+(count_slide+offset)+"'><span class='layer_type'>Image</span><div class='banner_parameters'>"+slide_set+"<span class='set_b_img'>"+imgurl+"</span></div><span class='layer_counter'>"+count_slide+"</span><span class='show_hode'>hide</span></li>");
+			jQuery('#layers-order-list').append("<li class='slide' role='layer-"+(count_slide+offset)+"'><span class='layer_counter'>"+count_slide+".</span><span class='layer_type'>Image</span><div class='banner_parameters'>"+slide_set+"<span class='set_b_img'>"+imgurl+"</span></div><span class='show_hode' role='hide'></span></li>");
 
 			/* Add drag-image layer */
 			jQuery('#banner_working_board').append("<div id='layer-"+(count_slide+offset)+"' class='banner_block_drag'><img src='"+imgurl+"'/></div>");
@@ -233,17 +237,19 @@ jQuery(document).ready(function() {
 		jQuery('#layers-order').find('.active_slide').removeClass('active_slide');
 		jQuery(this).addClass('active_slide');
 	});
-	jQuery('#create_submit').live('click',function() {
+	/*jQuery('#create_submit').live('click',function() {
 		jQuery('#banner_form_set').submit();
-	});
+	});*/
 	
 	jQuery('.show_hode').live('click',function() {
-		if(jQuery(this).text() == 'hide') {
-			jQuery(this).text('show');
+		if(jQuery(this).attr('role') == 'hide') {
+			jQuery(this).attr('role','show');
 			jQuery('#banner_working_board #'+jQuery(this).parent().attr('role')).css('display','none');
+			jQuery(this).addClass('show_hidden');
 		} else {
-			jQuery(this).text('hide');
+			jQuery(this).attr('role','hide');
 			jQuery('#banner_working_board #'+jQuery(this).parent().attr('role')).css('display','block');
+			jQuery(this).removeClass('show_hidden');
 		}
 	});
 	
@@ -275,7 +281,7 @@ jQuery(document).ready(function() {
 	jQuery('#banner_add_text').live('click',function() {
 		var count_slide = jQuery('#layers-order-list .slide').length;
 		/* Add layer */
-		jQuery('#layers-order-list').append("<li class='slide' role='layer-"+(count_slide+delete_counter)+"'><span class='layer_type'>Text</span><div class='banner_parameters'>"+slide_set+"</div><span class='layer_counter'>"+count_slide+"</span><span class='show_hode'>hide</span></li>");
+		jQuery('#layers-order-list').append("<li class='slide' role='layer-"+(count_slide+delete_counter)+"'><span class='layer_counter'>"+count_slide+".</span><span class='layer_type'>Text</span><div class='banner_parameters'>"+slide_set+"</div><span class='show_hode' role='hide'></span></li>");
 		/* Add drag layer */
 		jQuery('#banner_working_board').append("<div id='layer-"+(count_slide+delete_counter)+"' class='banner_block_drag'>"+slide_parameters['b_html']+count_slide+"</div>");
 		jQuery( ".banner_block_drag" ).draggable({ containment: "#banner_working_board", scroll: false,cursor: "move" });
@@ -298,12 +304,12 @@ jQuery(document).ready(function() {
 		delete_counter++;
 	});
 	/* Delete all*/
-	jQuery('#banner_del_all').live('click',function() {
+	/*jQuery('#banner_del_all').live('click',function() {
 		jQuery('#layers-order-list li').remove();
 		jQuery('#banner_working_board .banner_block_drag').remove();
 		get_change_count_form();
 		delete_counter = 0;
-	});
+	});*/
 	/* Click by layer*/
 	jQuery('.slide').live('mousedown',function() {
 		set_active(this);
@@ -321,7 +327,7 @@ jQuery(document).ready(function() {
 	
 	/* visibility status */
 	jQuery('.slide').each(function(){
-		if(jQuery(this).find('.show_hode').text() == 'hide') {
+		if(jQuery(this).find('.show_hode').attr('role') == 'hide') {
 			jQuery('#banner_working_board #'+jQuery(this).attr('role')).css('display','block');
 		} else {
 			jQuery('#banner_working_board #'+jQuery(this).attr('role')).css('display','none');

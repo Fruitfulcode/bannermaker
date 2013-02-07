@@ -20,7 +20,8 @@ function banner_admin_scripts() {
 		wp_enqueue_script('ui-widget',    plugins_url('/js/ui/jquery.ui.widget.js', __FILE__),array('jquery-banner'), '20131801', false );
 		wp_enqueue_script('ui-mouse',     plugins_url('/js/ui/jquery.ui.mouse.js', __FILE__),array('jquery-banner'), '20131801', false );
 		wp_enqueue_script('ui-sortable',  plugins_url('/js/ui/jquery.ui.sortable.js', __FILE__),array('jquery-banner'), '20131801', false );
-		wp_enqueue_script('ui-draggable',  plugins_url('/js/ui/jquery.ui.draggable.js', __FILE__),array('jquery-banner'), '20131801', false );
+		wp_enqueue_script('ui-draggable', plugins_url('/js/ui/jquery.ui.draggable.js', __FILE__),array('jquery-banner'), '20131801', false );
+		wp_enqueue_script('validate',  	  plugins_url('/js/validate.js', __FILE__),array('jquery-banner'), '20131801', false );
 }
 
 add_action( 'admin_enqueue_scripts', 'add_admin_options_and_styles' );

@@ -86,7 +86,6 @@ function get_list_settings_layers($id = null){
 			
 			$out .= '<li class="slide" role="layer-'.$count.'">';
 			$set_out = '<div class="banner_parameters">';
-			$out     .= '<span class="layer_type">'.$value_key['type'].'</span>';	
 			$set_out .= '<span class="set_b_style">'.$value_key['style'].'</span>';	
 			$set_out .= '<span class="set_b_html">'.$value_key['html'].'</span>';	
 			$set_out .= '<span class="set_b_animation">'.$value_key['animation'].'</span>';
@@ -104,9 +103,11 @@ function get_list_settings_layers($id = null){
 			if($value_key['img'])	{	$temp_body = '<img src="'.$value_key['img'].'"/>';	}
 			else			{	$temp_body = html_entity_decode($value_key['html']);	}
 			
+			if($value_key['visibility'] == 'show')	{	$temp_show_class = 'show_hidden';	}
+						
 			$set_slides .= '<div id="layer-'.$count.'" class="'.$value_key['style'].' banner_block_drag" style="display: inline-block;top:'.$value_key['y'].';left:'.$value_key['x'].';">'.$temp_body.'</div>';
 			$set_out .='</div>';
-			$out .= $set_out.'<span class="layer_counter">'.$count.'</span><span class="show_hode">'.$value_key['visibility'].'</span></li>';
+			$out .= $set_out.'<span class="layer_counter">'.$count.'.</span><span class="layer_type">'.$value_key['type'].'</span><span class="show_hode '.$temp_show_class.'" role='.$value_key['visibility'].'></span></li>';
 			
 			$count++;
 		}
@@ -154,33 +155,6 @@ function get_slide_settings($id) {
 add_action('wp_ajax_banner_countre', 'banner_countre');
 
 function banner_countre() {
-	/*global $wpdb;
-	$banner_prefs_table = BASE_BANNER;
-	$banner_prefs_setting_table = BASE_SETTINGS;
-	
-	unset($sql);
-
-	$get_json = htmlspecialchars($_POST["set_lay"]);
-	$name = htmlspecialchars($_POST["name"]);
-	$height = htmlspecialchars($_POST["height"]);
-	$width = htmlspecialchars($_POST["width"]);
-	$url = htmlspecialchars($_POST["url"]);
-	$background = htmlspecialchars($_POST["background"]);
-	$id = htmlspecialchars($_POST["id"]);
-	$json = str_replace('/ban87;','"',$get_json);
-	
-	$sql = "UPDATE $banner_prefs_setting_table 
-			SET id='$id',settings='$json'
-			WHERE id=$id";
-	$wpdb->query($sql);
-	
-	unset($sql);
-	
-	$sql = "UPDATE $banner_prefs_table 
-					SET name='$name',height='$height',width='$width',url='$url',click='0',background='$background' 
-					WHERE id=$id";
-					
-	$wpdb->query($sql);*/
 	echo "some";
 }
 
@@ -217,6 +191,7 @@ function banner_save_settings() {
 }
 function show_Banner_settings($id_creator = 0){
 	global $wpdb;
+	
 	$banner_prefs_table = BASE_BANNER;
 	unset($id);
 	
@@ -237,39 +212,48 @@ function show_Banner_settings($id_creator = 0){
 		}
 	}
 ?>
-	<form id="banner_form_set" name="banner_opt" method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>?page=banner&amp;status=insert">
+	<h3 class="entry-header">settings</h3>
 	<div id="settings-container">
-		<h3>Genneral settings</h3>
-		<div class="set_general">Banner name:<input id="set_name" type='text' name="banner[banner_name]" value="<?php echo $name; ?>"></div>
-		<div class="set_general">Banner size:
-			<label>Height<input id="set_height" name="banner[banner_h]" type='text' value="<?php echo $height; ?>" /></label>
-			<label>Width<input id="set_width" name="banner[banner_w]" type='text' value="<?php echo $width; ?>" /></label>
+	<form id="banner_form_set" name="banner_opt" method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>?page=banner&amp;status=insert">
+		<h3>Name</h3>
+		<label>Unique name of your banner</label>
+			<input id="set_name" type='text' name="banner[banner_name]" value="<?php echo $name; ?>">
+		<h3>Banner size</h3>
+			<label>Set needed size for banner layout</label>
+		<h4>Width</h4>
+			<input class="small_in" id="set_width" name="banner[banner_w]" type='text' value="<?php echo $width; ?>" value="700" />
+		<h4>Height</h4>
+			<input class="small_in" id="set_height" name="banner[banner_h]" type='text' value="<?php echo $height; ?>" value="350" />
+		<h3>Banner URL:</h3>
+		<label>This reference for banner on click</label>
+			<input id="set_url" type='text' name='banner[banner_url]' value="<?php echo $url; ?>" />
+		<h3>Banner background</h3>
+		<label>Set background image for banner</label>
+			<input id="banner_upload" type="text" size="36" name="banner[banner_upload]" value="<?php echo $back;?>" style="display: none"/>	
+			<a id="banner_upload_image" class="action_button_big">Add Background</a>
+		<h3>Layout</h3>
+		<label>This is how you banner will be display</label>
+		<div id="coordination">
+			<span id="coordnt_start"></span>
+			<span id="coordnt_x"></span>
+			<span id="coordnt_y"></span>
+			<div id="banner_working_board" style="background: <?php echo $back;?> no-repeat;">
+				<?php $banner_layers = get_list_settings_layers($id);?>
+			</div>
 		</div>
-		<div class="set_general">Banner URL:<input id="set_url" type='text' name='banner[banner_url]' value="<?php echo $url; ?>" /></div>
-		
-		<h3>Layers settings</h3>
-		<div id="banner_working_board" style="background: <?php echo $back;?> no-repeat;">
-			<?php $banner_layers = get_list_settings_layers($id);?>
-		</div>
-		<input id="banner_upload" type="text" size="36" name="banner[banner_upload]" value="<?php echo $back;?>" style="display: none"/>	
-		<input id="banner_upload_image" type="button" class="blue_a_but" value="Add: Background" />
 	</form>
 	<?php if($id) { ?>
-		<input id="banner_add_image" type="button" class="blue_a_but" value="Add: Image" />
-		<input id="banner_add_text" type="button" class="blue_a_but" value="Add: Text" />
-		<input id="banner_del_layer" type="button" class="delete_layer" value="Delete: layer" />
-		<input id="banner_del_all" type="button" class="delete_all" value="Delete: all" />
-				
-		<div id="settings-area">
+	<div id="settings-area">
+		<div class="setting_block">
+			<div class="title-parameters"><span>Name</span><span style="margin-left: 60px;">Parameters</span></div>
 			<div id="layer-param">
-				<h4 class="title-parameters">Layer parameters: </h4>
 				<label id="css_area">Style
+					<a class="grey_button" href="">Edit CSS</a>
 					<select id="banner_style" disabled="disabled">
 						<option>1</option>
 						<option>2</option>
 						<option>3</option>
 					</select>
-					<a class="blue_a_but" href="">Edit CSS</a>
 				</label>
 				<label id="btext_layer">Text / HTML
 					<textarea id="banner_html" disabled="disabled">
@@ -315,18 +299,29 @@ function show_Banner_settings($id_creator = 0){
 					<input type="text" disabled="disabled" id="banner_y"></input>
 				</label>
 			</div>
+		</div>
+		<div class="setting_block">
+			<div class="title-layers"><span>#   Type</span><span class="right">Show / Hide</span> </div>
 			<div id="layers-order">
-				<h4 class="title-layers">Layers order: </h4>
 				<ul id="layers-order-list"><?php echo $banner_layers;?></ul>
 			</div>
+			<a id="banner_add_image" class="blue_a_but">	<img src="<?php echo BANNER_IMG.'/ico_add.png'; ?>" />Add image</a>
+			<a id="banner_add_text"  class="blue_a_but">	<img src="<?php echo BANNER_IMG.'/ico_addt.png'; ?>" />Add text</a>
+			<a id="banner_del_layer" class="delete_layer">	<img src="<?php echo BANNER_IMG.'/ico_del.png'; ?>"  />Remove layer</a>
+			<!--<a id="banner_del_all"   class="delete_all">Delete all</a>-->
 		</div>
-		<div id="save_changes" style="display: none;position: fixed;left: 50%;top:50%;">save</div>
-	<?php } ?>
 	</div>
-	<div style="clear:both;"></div>
+	
+		<?php } 
+		
+		if($id) {	echo "<div id='bottom_save_area'><a class='grey_button_big' href='".$_SERVER["PHP_SELF"]."?page=banner'>cancel</a>";
+					echo "<a id='update_submit' class='action_button_big' role=".$id.">Save</a></div>";			}
+		else 	{	echo "<a id='create_submit' class='action_button_big'>Create</a>";	
+					echo "<a class='grey_button_big' href='".$_SERVER["PHP_SELF"]."?page=banner'>cancel</a>";		}
+		?>
+		<div id="save_changes" style="display: none;position: fixed;left: 50%;top:50%;">save</div>
+	
+	</div>
 	<?php 
-	if($id) {	echo "<input id='update_submit' class='blue_a_but' type='button' name='banner_opt_btn' value='Save' role=".$id.">";	}
-	else 	{	echo "<input id='create_submit' class='blue_a_but' type='button' name='banner_opt_btn' value='Create'>";	}
-	echo "<a class='blue_a_but' href='".$_SERVER["PHP_SELF"]."?page=banner'>back</a>";
 }
 ?>

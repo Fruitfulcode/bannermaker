@@ -19,6 +19,7 @@ define('BASE_SETTINGS', $wpdb->prefix . 'banner_settings');
 define('BANNER_DIR',plugin_basename( __FILE__ ));
 define('BANNER_INC',$currentFolder . '/inc');
 define('BANNER_SCRIPTS',$currentFolder . '/scripts');
+define('BANNER_IMG',plugins_url('/img',__FILE__));
 
 //include  files
 require_once BANNER_INC.'/effect.php';
@@ -82,7 +83,7 @@ function banner_delete () {
 	unset($sql);
 	$banner_prefs_setting_table = BASE_SETTINGS;
 	
-	if($wpdb->get_var("SHOW TABLES LIKE '$banner_prefs_setting_table'") != $banner_prefs_setting_table) {
+	if($wpdb->get_var("SHOW TABLES LIKE '$banner_prefs_setting_table'") == $banner_prefs_setting_table) {
       $sql = "DROP TABLE `" . $banner_prefs_setting_table . "`";
       $wpdb->query($sql);
     }
@@ -99,24 +100,24 @@ function banner_add_pages() {
 
 function banner_page() {
 
-    echo "<div id='banners_page'><img id='logo' src='".plugins_url('/img/banner_logo.jpg',__FILE__)."' /><h2>Banner Maker</h2>";
+	echo "<div id='head_line'><img id='logo' src='".plugins_url('/img/banner_logo.jpg',__FILE__)."' /><h2>Banner Maker</h2></div>";
 	
 	$active = getBannerPage();
- 
-	$out = '<table>';
-	$out .= '<thead><tr><td class="grid_B_1">ID</td>
-				 <td class="grid_B_2">Name</td>
-				 <td class="grid_B_3">Shortcode</td>
-				 <td class="grid_B_3">Settings</td>
-				 <td class="grid_B_1">Clicks</td>
-				 <td class="grid_B_1">Preview</td></tr></thead>';
-	$out .= get_my_banners();
-	$out .= '</table>';
 	
-	$out .= "<a class='add_banner' href='".$_SERVER["PHP_SELF"]."?page=banner&status=create'>Add layer</a></div>";
-	
-	if($active == "show" or !$active or $active == "delete")	{	echo $out;	}
+	if($active == "show" or !$active or $active == "delete")	{
+	    $out .= "<div id='banners_page'><table>";
+		$out .= '<thead><tr><td class="grid_B_1">ID</td>
+					 <td class="grid_B_2">Name</td>
+					 <td class="grid_B_3">Shortcode</td>
+					 <td class="grid_B_3">Settings</td>
+					 <td class="grid_B_1">Clicks</td>
+					 <td class="grid_B_1">Preview</td></tr></thead>';
+		$out .= get_my_banners();
+		$out .= '</table>';
+		$out .= "<a class='add_banner' href='".$_SERVER["PHP_SELF"]."?page=banner&status=create'>add new banner</a></div>";
 
+		echo $out;	
+	}
 }
 
 /*Art - get banners  */
@@ -147,6 +148,7 @@ function get_my_banners() {
 		
 		$out .= '</tr>';
 	}
+	if(!$check) { $out = '<tr><td>-</td><td>no banners found</td><td></td><td></td><td></td><td></td></tr>';	}
 	
 	return $out;
 } 
