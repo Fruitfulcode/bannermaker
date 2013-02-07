@@ -24,7 +24,7 @@ function banner_admin_scripts() {
 		wp_enqueue_script('validate',  	  plugins_url('/js/validate.js', __FILE__),array('jquery-banner'), '20131801', false );
 }
 
-add_action( 'admin_enqueue_scripts', 'add_admin_options_and_styles' );
+add_action( 'admin_enqueue_scripts', 'add_banner_admin_options_and_styles' );
 
 function add_banner_admin_options_and_styles($hook) {
 	if( 'toplevel_page_banner' != $hook ) return;
