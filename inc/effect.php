@@ -113,7 +113,7 @@ function get_Banner_slide($atts)	{
 	if($animation_ef_out  == 'Long from Left') 		{	$out_offset_x = '-'.($val_x+$offset_x).'px';	$out_offset_y = $val_y; 						 }
 	
 	if($animation_ef == 'Fade') {
-		$out['slides'] = '<div class="banner_slide" id="slide-layer-'.$count.'-'.$id.'" style="display: none;left: '.$style_x.';top: '.$style_y.';z-index: '.$count.';display:block;">'.$temp_body.'</div>';
+		$out['slides'] = '<div class="banner_slide" id="slide-layer-'.$count.'-'.$id.'" style="display: none;left: '.$style_x.';top: '.$style_y.';z-index: '.$count.';">'.$temp_body.'</div>';
 		$out['reset']  = 'jQuery("#slide-layer-'.$count.'-'.$id.'").css({display: "none",left: "'.$style_x.'",top: "'.$style_y.'"});';
 	} else {
 		$out['slides'] = '<div class="banner_slide" id="slide-layer-'.$count.'-'.$id.'" style="left: '.$style_x.';top: '.$style_y.';z-index: '.$count.';display:block;">'.$temp_body.'</div>';

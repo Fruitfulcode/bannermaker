@@ -97,8 +97,11 @@
 #settings-container .action_button_big {padding: 11px 20px; color: white;   border: 1px solid #fe6825; text-shadow: 0px 1px 1px #962e00; background: url('../img/button_action-big.jpg') repeat-x }
 #settings-container .grey_button 	    {padding: 5px  20px; color: #7b7b7c; border: 1px solid #d1d1d1; text-shadow: 0px 1px 1px white;   background: url('../img/button_grey.jpg') repeat-x; margin-left: 12px } 
 #settings-container .grey_button_big     {padding: 11px 20px; color: #7b7b7c; border: 1px solid #d1d1d1; text-shadow: 0px 1px 1px white;   background: url('../img/button_grey_big.jpg') repeat-x; margin-left: 12px }
-#settings-container  #del_background      {display: none }
-#settings-container #settings-area {	width: 900px; float:left }
+#settings-container  #del_background      {display: none; background: url('../img/large.png') no-repeat; width: 16px; height: 16px; float: left; margin: 12px }
+#settings-container  #banner_upload_image {margin: 0 0 10px 0;}
+#settings-container #settings-area   { width: 900px; float:left }
+#settings-container .container-full { width: 852px; float:left; margin: 10px 0 }
+
 #settings-container #settings-area .setting_block {width: 450px; float:left }
 
 #settings-container #settings-area .title-layers,
@@ -163,3 +166,7 @@
 #settings-container 	#bottom_save_area {float: left;width: 854px; margin-top: 30px }
 #settings-container 	#bottom_save_area a{float: right }
 /* end settings page css  */
+/* preview css */
+#show_preview {padding: 20px;position: fixed;background-color: #ddd;right: 50%;top: 15%;z-index: 9999;border: 3px solid black; display: none;  border-radius: 10px }
+#close_preview {width: 16px; height: 16px; position: absolute; background: url('../img/large.png') no-repeat;right: 0; top: -20px; right: -20px; cursor: pointer}
+/* preview css */

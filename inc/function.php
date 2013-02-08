@@ -205,6 +205,13 @@ function banner_save_settings() {
 					
 	$wpdb->query($sql);
 }
+
+add_action('wp_ajax_banner_show_preview', 'banner_show_preview');
+
+function banner_show_preview() {
+	$id = htmlspecialchars($_POST["id"]);
+	return do_shortcode('[bannermaker id="'.$id.'"]');
+}
 function show_Banner_settings($id_creator = 0){
 	global $wpdb;
 	
@@ -246,9 +253,8 @@ function show_Banner_settings($id_creator = 0){
 		<h3>Banner background</h3>
 		<label>Set background image for banner</label>
 			<input id="banner_upload" type="text" size="36" name="banner[banner_upload]" value="<?php echo $back;?>" style="display: none"/>	
-			<a id="banner_upload_image" class="action_button_big">Add Background</a>
-			<a id="del_background">delete background</a>
-		<h3>Layout</h3>
+			<a id="banner_upload_image" class="grey_button_big left">Add Background</a><a id="del_background"></a>			
+		<h3 class="clear">Layout</h3>
 		<label>This is how you banner will be display</label>
 		<div id="coordination">
 			<span id="coordnt_start"></span>
@@ -260,12 +266,15 @@ function show_Banner_settings($id_creator = 0){
 		</div>
 	</form>
 	<?php if($id) { ?>
+	<div class="container-full">
+		<a class="action_button right show_preview" data_id="<?php echo $id ?>">View preview</a>
+	</div>
 	<div id="settings-area">
 		<div class="setting_block">
 			<div class="title-parameters"><span>Name</span><span style="margin-left: 60px;">Parameters</span></div>
 			<div id="layer-param">
 				<label id="css_area">Style
-					<a class="grey_button" href="">Edit CSS</a>
+					<a class="grey_button" id="custom_css">Edit CSS</a>
 					<select id="banner_style" disabled="disabled">
 						<option>1</option>
 						<option>2</option>
@@ -336,7 +345,7 @@ function show_Banner_settings($id_creator = 0){
 					echo "<a class='grey_button_big' href='".$_SERVER["PHP_SELF"]."?page=banner'>cancel</a>";		}
 		?>
 		<div id="save_changes" style="display: none;position: fixed;left: 50%;top:50%;">save</div>
-	
+		<div id="show_preview"></div>
 	</div>
 	<?php 
 }

@@ -25,6 +25,7 @@ define('BANNER_IMG',plugins_url('/img',__FILE__));
 require_once BANNER_INC.'/effect.php';
 require_once BANNER_INC.'/function.php';
 require_once BANNER_INC.'/shortcode.php';
+require_once BANNER_INC.'/file.php';
 require_once 'init.php';
 
 register_activation_hook(BANNER_DIR,'banner_install');
@@ -116,7 +117,7 @@ function banner_page() {
 		$out .= '</table>';
 		$out .= "<a class='add_banner' href='".$_SERVER["PHP_SELF"]."?page=banner&status=create'>add new banner</a></div>";
 
-		echo $out;	
+		echo $out.'<div id="show_preview"></div>';	
 	}
 }
 
@@ -141,10 +142,10 @@ function get_my_banners() {
 			}
 		$out .= '<td>[bannermaker id="'.$id.'"]</td>'; 	
 		$out .= '<td><a href="'.$_SERVER["PHP_SELF"].'?page=banner&status=edit&id='.$id.'" class="edit_but">edit</a>';
-		$out .= '<a href="'.$_SERVER["PHP_SELF"].'?page=banner&status=copy&id='.$id.'" class="copy_but">copy</a>';
+		$out .= '<span href="" class="copy_but">copy</span>';
 		$out .= '<a href="'.$_SERVER["PHP_SELF"].'?page=banner&status=delete&id='.$id.'" class="delete_but">delete</a></td>';
 		$out .= '<td><a class="click" href="">0</a></td>'; 	
-		$out .= '<td><a href="" class="view_but">viev</a></td>'; 	
+		$out .= '<td><a class="view_but show_preview" data_id="'.$id.'">viev</a></td>'; 	
 		
 		$out .= '</tr>';
 	}

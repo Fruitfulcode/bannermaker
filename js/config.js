@@ -225,7 +225,7 @@ function load_image(status_img_load,offset) {
 
 			/* Add drag-image layer */
 			jQuery('#banner_working_board').append("<div id='layer-"+(count_slide+offset)+"' class='banner_block_drag'><img src='"+imgurl+"'/></div>");
-			$( ".banner_block_drag" ).draggable({ containment: "#banner_working_board", scroll: false,cursor: "move" });
+			jQuery( ".banner_block_drag" ).draggable({ containment: "#banner_working_board", scroll: false,cursor: "move" });
 			
 		}
 		
@@ -253,8 +253,9 @@ jQuery(document).ready(function() {
 			jQuery(this).removeClass('show_hidden');
 		}
 	});
+	
 	if(jQuery('#banner_working_board').length) {
-		if(jQuery('#banner_working_board').css('background-image').replace(/^url\(["']?/, '').replace(/["']?\)$/, '') != 'none')
+		if(jQuery('#banner_working_board').css('background-image').replace('url("','').replace('")','') != 'none')
 		{
 			jQuery("#del_background").css('display','block');
 		}
@@ -278,12 +279,46 @@ jQuery(document).ready(function() {
 				  'height'		: jQuery('#set_height').val(),	
 				  'width'		: jQuery('#set_width').val(),
 				  'url'			: jQuery('#set_url').val(),
-				  'background'	: jQuery('#banner_working_board').css('background-image').replace(/^url\(["']?/, '').replace(/["']?\)$/, '')
+				  'background'	: jQuery('#banner_working_board').css('background-image').replace('url("','').replace('")','')
 			   }, 
 			   function(response){
 					jQuery('#save_changes').fadeIn(1000).delay(1000).fadeOut(1000);
 			   });
 		}
+	});
+	
+	/* show preview*/
+	
+	jQuery('.show_preview').each(function() {
+		jQuery(this).live('click',function() {
+            jQuery.post(
+			   ajaxurl, 
+			   {
+				  'action'		: 'banner_show_preview',
+				  'id'    		: jQuery(this).attr('data_id')
+			   }, 
+			   function(html){
+					jQuery('#show_preview').html(html+"<span id='close_preview'></span>");
+					jQuery('#show_preview').fadeIn(300);
+				});
+		});
+	});
+	
+	/* custom css work */
+	jQuery('#custom_css').live('click',function() {
+		jQuery.post(
+		   ajaxurl, 
+		   {
+			  'action'		: 'banner_open_custom_css'
+		   }, 
+		   function(css){
+				alert(css);
+			});
+	});
+	
+	jQuery('#close_preview').live('click',function() {
+		jQuery('#show_preview').fadeOut(0);
+		jQuery('#show_preview').html('');
 	});
 	/* Delete background */
 	jQuery('#del_background').live('click',function() {
@@ -308,7 +343,6 @@ jQuery(document).ready(function() {
 		tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true');
 		load_image(false,delete_counter);
 	});
-	
 	/* Delete layer*/
 	jQuery('#banner_del_layer').live('click',function() {
 		jQuery('#layers-order').find('.active_slide').remove();
@@ -329,7 +363,7 @@ jQuery(document).ready(function() {
 	/* init ui */
 	jQuery("#layers-order-list").sortable({cursor: "move"});
 	jQuery("#layers-order-list").disableSelection();
-	$( ".banner_block_drag" ).draggable({ containment: "#banner_working_board", scroll: false,cursor: "move" });
+	jQuery( ".banner_block_drag" ).draggable({ containment: "#banner_working_board", scroll: false,cursor: "move" });
 	
 	/* visibility status */
 	jQuery('.slide').each(function(){
