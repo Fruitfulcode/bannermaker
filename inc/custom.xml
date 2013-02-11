@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<classes>
+ <class>
+  <name>Red</name>
+  <value>color: red; font-size: 16px;</value>
+ </class>
+ <class>
+  <name>Red</name>
+  <value>color: green; font-size: 26px;</value>
+ </class>
+ <class>
+  <name>Red</name>
+  <value>font-weight: bold; font-size: 12px;</value>
+ </class>
+</classes>
