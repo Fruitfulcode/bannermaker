@@ -54,8 +54,15 @@ function get_banner_out($atts) {
 				$value_key['animation']  == 'Random Rotate'	) {	$delay = ( $value_key['speed']*2 )+$value_key['delay']; }
 			else 											  { $delay = $value_key['speed']+$value_key['delay']; 		}
 			
-			if ($max_delay < $delay) { $max_delay = $delay; }
+			if( $value_key['animation_out']  == 'Long from Top' 	 or
+				$value_key['animation_out']  == 'Long from Bottom' 	 or
+				$value_key['animation_out']  == 'Long from Right'  	 or
+				$value_key['animation_out']  == 'Long from Left' 	 or
+				$value_key['animation_out']  == 'Random Rotate'	) {	$delay += ( $value_key['speed_out']*2 )+$value_key['delay_out']; }
+			else 											  	  { $delay += $value_key['speed_out']+$value_key['delay_out']; 		 }
 			
+			if ($max_delay < $delay) { $max_delay = $delay; }
+						
 			$get_value = get_Banner_slide (	array(	  'animation_ef'	 => $value_key['animation'],
 													  'val_x'			 => $value_key['x'],
 													  'val_y'			 => $value_key['y'],
@@ -88,7 +95,13 @@ function get_banner_out($atts) {
 		echo $script;
 		echo $script_for_null;
 	} 
-	die();
+	
 }
 add_shortcode('bannermaker','get_banner_out');
+
+
+/*add_filter('wp_enqueue_scripts','short_fun');*/
+
+
+
 ?>

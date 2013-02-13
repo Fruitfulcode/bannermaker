@@ -254,7 +254,12 @@ jQuery(document).ready(function() {
 		}
 	});
 	
-	if(jQuery('#banner_working_board').length) {
+	jQuery('.banner_block_drag').each(function() {
+		jQuery(this).width(jQuery(this).innerWidth());
+		jQuery(this).height(jQuery(this).innerHeight());
+	});
+	
+	if(jQuery('#update_submit').length) {
 		if(jQuery('#banner_working_board').css('background-image').replace('url("','').replace('")','') != 'none')
 		{
 			jQuery("#del_background").css('display','block');
@@ -288,7 +293,7 @@ jQuery(document).ready(function() {
 	});
 	
 	/* show preview*/
-	
+		
 	jQuery('.show_preview').each(function() {
 		jQuery(this).live('click',function() {
             jQuery.post(

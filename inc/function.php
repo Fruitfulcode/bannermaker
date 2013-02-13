@@ -235,6 +235,7 @@ function show_Banner_settings($id_creator = 0){
 		}
 	}
 ?>
+	
 	<h3 class="entry-header">settings</h3>
 	<div id="settings-container">
 	<form id="banner_form_set" name="banner_opt" method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>?page=banner&amp;status=insert">

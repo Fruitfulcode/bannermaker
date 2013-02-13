@@ -1,5 +1,5 @@
 body .banner_maker_container {position: relative; display: block; overflow: hidden }
-body .banner_maker_container .banner_slide { position: absolute }
+body .banner_maker_container .banner_slide { position: absolute; width: 100% }
 body .banner_maker_container img {box-shadow: none }
 body .banner_maker_container
 
