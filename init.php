@@ -22,6 +22,7 @@ function banner_admin_scripts() {
 		wp_enqueue_script('ui-sortable',  plugins_url('/js/ui/jquery.ui.sortable.js', __FILE__),array('jquery-banner'), '20131801', false );
 		wp_enqueue_script('ui-draggable', plugins_url('/js/ui/jquery.ui.draggable.js', __FILE__),array('jquery-banner'), '20131801', false );
 		wp_enqueue_script('validate',  	  plugins_url('/js/validate.js', __FILE__),array('jquery-banner'), '20131801', false );
+		wp_enqueue_script('xml',  	      plugins_url('/js/xml.js', __FILE__),array('jquery-banner'), '20131801', false );
 		
 		/* for preview */
 		wp_enqueue_script('easing',  plugins_url('/js/easing.js', __FILE__),array('jquery-banner'), '20131801', false );
@@ -46,8 +47,6 @@ function banner_init() {
 	
 	wp_enqueue_script('easing',  plugins_url('/js/easing.js', __FILE__),array('jquery-banner-show'), '20131801', false );
 	wp_enqueue_script('no-conflict',  plugins_url('/js/noconflict.js', __FILE__),array('jquery-banner-show'), '20131801', false );
-	
-	wp_localize_script( 'no-conflict', 'MyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	
 	wp_register_style( 'banner_slyle', plugins_url('/css/style.css', __FILE__));
 	wp_enqueue_style( 'banner_slyle');

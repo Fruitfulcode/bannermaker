@@ -308,19 +308,6 @@ jQuery(document).ready(function() {
 				});
 		});
 	});
-	
-	/* custom css work */
-	jQuery('#custom_css').live('click',function() {
-		jQuery.post(
-		   ajaxurl, 
-		   {
-			  'action'		: 'banner_open_custom_css'
-		   }, 
-		   function(css){
-				alert(css);
-			});
-	});
-	
 	jQuery('#close_preview').live('click',function() {
 		jQuery('#show_preview').fadeOut(0);
 		jQuery('#show_preview').html('');

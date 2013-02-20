@@ -170,3 +170,7 @@
 #show_preview {padding: 20px;position: fixed;background-color: #ddd;right: 50%;top: 15%;z-index: 9999;border: 3px solid black; display: none;  border-radius: 10px }
 #close_preview {width: 16px; height: 16px; position: absolute; background: url('../img/large.png') no-repeat;right: 0; top: -20px; right: -20px; cursor: pointer}
 /* preview css */
+/* style css */
+#show_style_css {padding: 20px;position: fixed;background-color: #ddd;right: 50%;top: 15%;z-index: 9999;border: 3px solid black; display: none;  border-radius: 10px }
+#close_preview {width: 16px; height: 16px; position: absolute; background: url('../img/large.png') no-repeat;right: 0; top: -20px; right: -20px; cursor: pointer}
+/* style css */

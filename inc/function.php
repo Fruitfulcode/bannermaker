@@ -206,11 +206,26 @@ function banner_save_settings() {
 	$wpdb->query($sql);
 }
 
+add_action('wp_ajax_banner_click_counter', 'banner_click_counter');
+
+function banner_click_counter () {
+	global $wpdb;
+	unset($sql);
+	$banner_prefs_table = BASE_BANNER;
+	$id = htmlspecialchars($_POST["id"]);
+	
+	$sql =  "UPDATE $banner_prefs_table SET click = click + 1 WHERE id=$id"; 
+	$wpdb->query($sql);
+	
+	die();
+}
+
 add_action('wp_ajax_banner_show_preview', 'banner_show_preview');
 
 function banner_show_preview() {
 	$id = htmlspecialchars($_POST["id"]);
-	return do_shortcode('[bannermaker id="'.$id.'"]');
+	echo do_shortcode('[bannermaker id="'.$id.'"]');
+	die();
 }
 function show_Banner_settings($id_creator = 0){
 	global $wpdb;
@@ -347,7 +362,17 @@ function show_Banner_settings($id_creator = 0){
 		?>
 		<div id="save_changes" style="display: none;position: fixed;left: 50%;top:50%;">save</div>
 		<div id="show_preview"></div>
+		<div id="show_style_css"></div>
 	</div>
 	<?php 
 }
+
+add_action('wp_head','pluginname_ajaxurl');
+
+function pluginname_ajaxurl() {
+?>
+<script type="text/javascript">
+var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
+</script>
+<?php }
 ?>

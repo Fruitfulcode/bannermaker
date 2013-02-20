@@ -37,7 +37,8 @@ function get_banner_out($atts) {
 				
 		$banner_out = '<div class="banner_maker_container" id="bannermaker-'.$banner_macive['id'].'"style="width: '.$banner_macive['width'].'px;
 																			height: '.$banner_macive['height'].'px;
-																			background: url('.$banner_macive['background'].') no-repeat;" >';
+																			background: url('.$banner_macive['background'].') no-repeat;" 
+																			date_id = "'.$banner_macive['id'].'">';
 		$banner_out 	 .= '<a href="'.$banner_macive['url'].'" target="_blank" class="banner_go_link">';
 		$settings_macive = get_slide_settings($id);
 		
@@ -91,17 +92,9 @@ function get_banner_out($atts) {
 		$banner_out 	 .= '</a></div>';
 		$script .= 'setTimeout("sett'.$banner_macive['id'].'()",'.($max_delay+5000).');}anim'.$banner_macive['id'].'();</script>';
 		
-		echo $banner_out;
-		echo $script;
-		echo $script_for_null;
+		return $banner_out.$script.$script_for_null;
 	} 
 	
 }
 add_shortcode('bannermaker','get_banner_out');
-
-
-/*add_filter('wp_enqueue_scripts','short_fun');*/
-
-
-
 ?>

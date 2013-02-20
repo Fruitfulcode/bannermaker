@@ -138,13 +138,14 @@ function get_my_banners() {
 		$id = '';
 			foreach($line as $key  => $value){
 					if($key == "id")		{ 	$out .= '<td>'.$value.'</td>';$id = $value;	}
-					if($key == "name")		{ 	$out .= '<td>'.$value.'</td>';					}
+					if($key == "name")		{ 	$out .= '<td>'.$value.'</td>';				}
+					if($key == "click")		{ 	$click = $value;							}
 			}
 		$out .= '<td>[bannermaker id="'.$id.'"]</td>'; 	
 		$out .= '<td><a href="'.$_SERVER["PHP_SELF"].'?page=banner&status=edit&id='.$id.'" class="edit_but">edit</a>';
 		$out .= '<span href="" class="copy_but">copy</span>';
 		$out .= '<a href="'.$_SERVER["PHP_SELF"].'?page=banner&status=delete&id='.$id.'" class="delete_but">delete</a></td>';
-		$out .= '<td><a class="click" href="">0</a></td>'; 	
+		$out .= '<td><span class="click">'.$click.'</span></td>'; 	
 		$out .= '<td><a class="view_but show_preview" data_id="'.$id.'">viev</a></td>'; 	
 		
 		$out .= '</tr>';
