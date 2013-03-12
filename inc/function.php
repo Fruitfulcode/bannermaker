@@ -121,7 +121,7 @@ function get_list_settings_layers($id = null){
 			
 			if($value_key['visibility'] == 'show')	{	$temp_show_class = 'show_hidden';	}
 						
-			$set_slides .= '<div id="layer-'.$count.'" class="'.$value_key['style'].' banner_block_drag" style="display: inline-block;top:'.$value_key['y'].';left:'.$value_key['x'].';">'.$temp_body.'</div>';
+			$set_slides .= '<div id="layer-'.$count.'" class="'.$value_key['style'].' banner_block_drag" date="'.$value_key['style'].'" style="display: inline-block;top:'.$value_key['y'].';left:'.$value_key['x'].';">'.$temp_body.'</div>';
 			$set_out .='</div>';
 			$out .= $set_out.'<span class="layer_counter">'.$count.'.</span><span class="layer_type">'.$value_key['type'].'</span><span class="show_hode '.$temp_show_class.'" role='.$value_key['visibility'].'></span></li>';
 			
@@ -292,9 +292,13 @@ function show_Banner_settings($id_creator = 0){
 				<label id="css_area">Style
 					<a class="grey_button" id="custom_css">Edit CSS</a>
 					<select id="banner_style" disabled="disabled">
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
+						<?php
+							$xml = simplexml_load_file(BANNER_INC."/custom.xml");
+							
+							foreach ($xml as $val) {
+								echo '<option>'.$val->name.'</option>';
+							}
+						?>
 					</select>
 				</label>
 				<label id="btext_layer">Text / HTML

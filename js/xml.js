@@ -10,9 +10,12 @@ jQuery('#custom_css').live('click',function() {
 			jQuery('#show_preview').fadeIn(300);
 		});
 });
-/* custom css add */	
+/* custom css add and delete*/	
 jQuery('#custom_css_add').live('click',function() {
-	jQuery('#show_preview').append('<div class="xml_line"><input class="class_css" type="text" value="Class"><textarea class="value_css"></textarea><a>delete</a></div>');
+	jQuery('#container_class').append('<div class="xml_line"><input class="class_css" type="text" value="Class"><textarea class="value_css"></textarea><a class="xml_line_delete">delete</a></div>');
+});
+jQuery('.xml_line_delete').live('click',function() {
+	jQuery(this).parent().remove();
 });
 /* custom css save */	
 jQuery('#custom_css_save').live('click',function() {

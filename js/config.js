@@ -78,7 +78,18 @@ function change_form() {
 	
 	/* layers changes */
 	
-	jQuery("#banner_style").change(function()	  	  { jQuery('.active_slide .banner_parameters .set_b_style').text(jQuery(this).val());			});
+	jQuery("#banner_style").change(function()	  	  { jQuery('.active_slide .banner_parameters .set_b_style').text(jQuery(this).val());			
+														var get_class = jQuery('.drop_active').attr('date');															
+														
+														if(get_class) {
+															jQuery('.drop_active').removeClass(get_class);															
+															jQuery('.drop_active').addClass(jQuery(this).val());
+															jQuery('.drop_active').attr('date',jQuery(this).val());															
+														}
+														else {
+															jQuery('.drop_active').addClass(jQuery(this).val());
+															jQuery('.drop_active').attr('date',jQuery(this).val());															
+														}																							});
 	jQuery("#banner_html").on('keyup',function()  	  { jQuery('.active_slide .banner_parameters .set_b_html').text(jQuery(this).val()); 
 														jQuery('.drop_active ').html(jQuery(this).val()); 									 		});
 	jQuery("#banner_animation").change(function() 	  { jQuery('.active_slide .banner_parameters .set_b_animation').text(jQuery(this).val()); 		});

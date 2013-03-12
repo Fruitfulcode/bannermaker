@@ -7,13 +7,13 @@ function banner_open_custom_css() {
 
 	$xml = simplexml_load_file(BANNER_INC."/custom.xml");
 	unset($out);
-
-		foreach ($xml as $val) {
-		
-			echo '<div class="xml_line"><input class="class_css" type="text" value="'.$val->name.'"/>';
-			echo '<textarea class="value_css">'.$val->value.'</textarea><a>delete</a></div>';
-			$count ++;
-		}
+			
+		echo '<div id="container_class">';
+			foreach ($xml as $val) {
+				echo '<div class="xml_line"><input class="class_css" type="text" value="'.$val->name.'"/>';
+				echo '<textarea class="value_css">'.$val->value.'</textarea><a class="xml_line_delete" >delete</a></div>';
+			}
+		echo '</div>';
 		echo '<a class="action_button" id="custom_css_add">add</a><a class="grey_button" id="custom_css_save" >Save</a>';
 
 	die();
@@ -38,10 +38,12 @@ function banner_add_class() {
 add_action('wp_ajax_banner_save_xml', 'banner_save_xml');
 
 function banner_save_xml() {
+	unset($save_out);
+	
 	$xml = $_POST["xml_macive"];
 	$xml_macive = str_replace('\"','"',$xml);
 	$xml_macive = json_decode($xml_macive);
-	/*print_r($xml_macive);*/
+	
 	$i = 0; 
 	$xmlstr = '<?xml version="1.0"?><classes></classes>';	
 	$movies = new SimpleXMLElement($xmlstr);	
@@ -49,50 +51,25 @@ function banner_save_xml() {
 	foreach ($xml_macive as $line)	{
 		$class_v = $movies->addChild('class_v');
 		foreach ($line as $key => $value)	{
-			if ($key == 'name')  { $class_v->addChild('name',$value); }
-			if ($key == 'value') { $class_v->addChild('value',$value); }
+			if ($key == 'name')  { $class_v->addChild('name',$value); $save_out .= '.'.$value;}
+			if ($key == 'value') { $class_v->addChild('value',$value); $save_out .= ' { '.$value.' }'.chr(13);}
 		}
 	}
 	
 	file_put_contents(BANNER_INC."/custom.xml",$movies->asXML());
-		
-	/*$character = $movies->movie[0]->characters->addChild('character');
-	$character->addChild('name', 'Mr. Parser');
-	$character->addChild('actor', 'John Doe');
-
-	$rating = $movies->movie[0]->addChild('rating', 'PG');
-	$rating->addAttribute('type', 'mpaa');
-
-	echo $movies->asXML();*/
+	save_css_file($save_out);
 	
-	die();
-	
-}
-/*add_action('wp_ajax_banner_open_custom_css', 'banner_open_custom_css');
-
-function banner_open_custom_css() {
-    unset($out);
-	$count = 0;
-	$fp = fopen(BANNER_INC.'/custom.css', "rt");
-	if ($fp)
-	{
-		while (!feof($fp))
-		{
-			$temp = fgets($fp, 999);
-			$out[$count] = $temp;
-			$count++;
-		}
-	}
-	else echo "Sorry!!! The file is not exist.";
-	fclose($fp);
-	banner_set_class($out);
 	die();
 }
 
-function banner_set_class($out = NULL) {
-	foreach($out as $line){
-		echo $line;
-		
+function save_css_file ($save = NULL) {
+	
+	if($save) {
+		$fp = fopen(BANNER_INC."/custom.css", "w");
+		$test = fwrite($fp, $save);
+		fclose($fp);
 	}
-}*/
+	
+}
+
 ?>

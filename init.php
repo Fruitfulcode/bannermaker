@@ -29,6 +29,9 @@ function banner_admin_scripts() {
 		wp_enqueue_script('no-conflict',  plugins_url('/js/noconflict.js', __FILE__),array('jquery-banner'), '20131801', false );
 		wp_register_style( 'banner_slyle', plugins_url('/css/style.css', __FILE__));
 		wp_enqueue_style( 'banner_slyle');
+		
+		wp_register_style( 'banner_custom_slyle', plugins_url('/inc/custom.css', __FILE__));
+		wp_enqueue_style( 'banner_custom_slyle');
 }
 
 add_action( 'admin_enqueue_scripts', 'add_banner_admin_options_and_styles' );
