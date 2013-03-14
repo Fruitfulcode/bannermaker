@@ -52,6 +52,8 @@ function banner_install () {
         )CHARACTER SET=utf8";
         
         dbDelta($sql); 
+		
+		load_default_banner ();
     }
 	
 	$banner_prefs_table = BASE_SETTINGS;
@@ -65,6 +67,7 @@ function banner_install () {
         
 		dbDelta($sql); 
     }
+	
 }
 
 function banner_deactivation () {
@@ -143,7 +146,7 @@ function get_my_banners() {
 			}
 		$out .= '<td>[bannermaker id="'.$id.'"]</td>'; 	
 		$out .= '<td><a href="'.$_SERVER["PHP_SELF"].'?page=banner&status=edit&id='.$id.'" class="edit_but">edit</a>';
-		$out .= '<span href="" class="copy_but">copy</span>';
+		$out .= '<a href="'.$_SERVER["PHP_SELF"].'?page=banner&status=copy&id='.$id.'" class="copy_but">copy</a>';
 		$out .= '<a href="'.$_SERVER["PHP_SELF"].'?page=banner&status=delete&id='.$id.'" class="delete_but">delete</a></td>';
 		$out .= '<td><span class="click">'.$click.'</span></td>'; 	
 		$out .= '<td><a class="view_but show_preview" data_id="'.$id.'">viev</a></td>'; 	

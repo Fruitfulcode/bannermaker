@@ -29,17 +29,50 @@ function getBannerPage(){
 	return $var;
 }
 function copy_Banner () {
-/*	global $wpdb;
+	global $wpdb;
 	$banner_prefs_table = BASE_BANNER;
-	$banner_prefs_delete = BASE_SETTINGS;
+	$banner_prefs_settings = BASE_SETTINGS;
+	$id = $_GET['id'];
 	
 	if(isset($_GET['id'])) {
-		$id = $_GET['id'];
-		$sql = "SELECT * INTO Tabs FROM $banner_prefs_table WHERE id=".$id." ALTER TABLE Tabs DROP COLUMN CID INSERT INTO $banner_prefs_table SELECT * FROM Tabs DROP TABLE Tabs ";
-		$tabl1 = $wpdb->query($sql);
-		$sql_del = "SELECT * FROM $banner_prefs_delete WHERE id=".$id."";
-		$tabl2 = $wpdb->query($sql_del);
-	}*/
+	
+		$sql = "SELECT name , height ,	width ,	url , click , background FROM $banner_prefs_table WHERE id=".$id;
+		
+		$temp_res = $wpdb->get_results($sql);
+		foreach($temp_res as $value ) {
+			foreach($value as $value_end => $key ) {
+				$result[$value_end] = $key;
+			}
+		}
+		
+		$sql = "SELECT settings FROM $banner_prefs_settings WHERE id=".$id;
+		$temp_settings = $wpdb->get_results($sql);
+		foreach($temp_settings as $value ) {
+			foreach($value as $value_end => $key ) {
+				$result_settings = $key;
+			}
+		}
+		
+		unset($sql);
+	
+	
+		$sql = "INSERT INTO $banner_prefs_table (name,height,width,url,click,background) 
+				VALUES('$result[name]','$result[height]','$result[width]','$result[url]','$result[click]','$result[background]');";
+		$wpdb->query($sql);	
+	
+		unset($sql);
+		$sql = "SELECT LAST_INSERT_ID()";
+		$id = $wpdb->get_results($sql);
+		foreach($id as $line){
+			foreach($line as $key  => $value){
+				$id_set = $value;
+			}
+		}
+	
+		$sql = "INSERT INTO wp_banner_settings (id,settings) VALUES('$id_set','$result_settings')";
+		$wpdb->query($sql);	
+	
+	}
 }
 function delete_Banner(){
 	global $wpdb;
@@ -293,7 +326,7 @@ function show_Banner_settings($id_creator = 0){
 					<a class="grey_button" id="custom_css">Edit CSS</a>
 					<select id="banner_style" disabled="disabled">
 						<?php
-							$xml = simplexml_load_file(BANNER_INC."/custom.xml");
+							$xml = simplexml_load_file(BANNER_INC."/style/custom.xml");
 							
 							foreach ($xml as $val) {
 								echo '<option>'.$val->name.'</option>';

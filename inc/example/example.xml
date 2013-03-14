@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<classes>
+ <banner>
+  <name>Test</name>
+  <height>400px</height>
+  <width>600px</width>
+  <url>http://new_url.com</url>
+  <click>0</click>
+  <background></background>
+  <settings>{"0":{"type": "Image","img": "http://localhost/Wordpress/wp-content/uploads/2013/02/screenshot.png","animation": "Fade","easing": "easeOutBack","speed": "3000","delay": "5000","animation_out": "Fade","easing_out": "easeOutBack","speed_out": "3000","delay_out": "1000","x": "147px","y": "0px","visibility": "hide"},"1":{"type": "Text","style": "Green","html": "Banner maker","animation": "Fade","easing": "easeOutBack","speed": "3000","delay": "1000","animation_out": "Fade","easing_out": "easeOutBack","speed_out": "3000","delay_out": "1000","x": "394px","y": "103px","visibility": "hide"},"2":{"type": "Text","style": "Green","html": "Banner maker","animation": "Fade","easing": "easeOutBack","speed": "3000","delay": "1000","animation_out": "Fade","easing_out": "easeOutBack","speed_out": "3000","delay_out": "1000","x": "446px","y": "126px","visibility": "hide"},"3":{"type": "Text","style": "Green","html": "Banner maker","animation": "Fade","easing": "easeOutBack","speed": "3000","delay": "10000","animation_out": "Short from Bottom","easing_out": "easeOutBack","speed_out": "3000","delay_out": "5000","x": "340px","y": "126px","visibility": "hide"},"4":{"type": "Text","style": "New","html": "Banner maker","animation": "Fade","easing": "easeOutBack","speed": "3000","delay": "1000","animation_out": "Fade","easing_out": "easeOutBack","speed_out": "3000","delay_out": "1000","x": "400px","y": "148px","visibility": "hide"}}</settings>
+ </banner>
+</classes>

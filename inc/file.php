@@ -5,7 +5,7 @@ add_action('wp_ajax_banner_open_custom_css', 'banner_open_custom_css');
 
 function banner_open_custom_css() {
 
-	$xml = simplexml_load_file(BANNER_INC."/custom.xml");
+	$xml = simplexml_load_file(BANNER_INC."/style/custom.xml");
 	unset($out);
 			
 		echo '<div id="container_class">';
@@ -22,7 +22,7 @@ function banner_open_custom_css() {
 add_action('wp_ajax_banner_add_class', 'banner_add_class');
 
 function banner_add_class() {
-	$xml = simplexml_load_file(BANNER_INC."/custom.xml");
+	$xml = simplexml_load_file(BANNER_INC."/style/custom.xml");
 	unset($out);
 	
 	$class_v = $xml->addChild('class_v');	
@@ -65,11 +65,46 @@ function banner_save_xml() {
 function save_css_file ($save = NULL) {
 	
 	if($save) {
-		$fp = fopen(BANNER_INC."/custom.css", "w");
+		$fp = fopen(BANNER_INC."/style/custom.css", "w");
 		$test = fwrite($fp, $save);
 		fclose($fp);
 	}
 	
 }
-
+function load_default_banner () {
+	global $wpdb;
+	$banner_prefs_table = BASE_BANNER;
+	$banner_prefs_settings = BASE_SETTINGS;
+	
+	$xml = simplexml_load_file(BANNER_INC."/example/example.xml");
+	unset($out);
+			
+		echo '<div id="container_class">';
+			foreach ($xml as $val) {
+				$result['name'] = $val->name;
+				$result['height'] = $val->height;
+				$result['width'] = $val->width;
+				$result['url'] = $val->url;
+				$result['click'] = $val->click;
+				$result['background'] = $val->background;
+				$result['settings'] = $val->settings;
+			}
+	
+	$sql = "INSERT INTO $banner_prefs_table (name,height,width,url,click,background) 
+				VALUES('$result[name]','$result[height]','$result[width]','$result[url]','$result[click]','$result[background]');";
+		$wpdb->query($sql);	
+	
+		unset($sql);
+		$sql = "SELECT LAST_INSERT_ID()";
+		$id = $wpdb->get_results($sql);
+		foreach($id as $line){
+			foreach($line as $key  => $value){
+				$id_set = $value;
+			}
+		}
+	
+		$sql = "INSERT INTO wp_banner_settings (id,settings) VALUES('$id_set','$result[settings]')";
+		$wpdb->query($sql);	
+	
+}
 ?>

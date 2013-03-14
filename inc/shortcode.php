@@ -78,7 +78,9 @@ function get_banner_out($atts) {
 													  'easing_out' 		 => $value_key['easing_out'],
 													  'speed_out'		 => $value_key['speed_out'],
 													  'delay_out' 		 => $value_key['delay_out'],
+													  'style'			 => $value_key['style'],										  
 													  'id'				 => $banner_macive['id']										  
+													  
 											));
 			
 			$banner_out .= $get_value['slides'];

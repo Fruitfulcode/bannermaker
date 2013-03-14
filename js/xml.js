@@ -32,8 +32,8 @@ jQuery('#custom_css_save').live('click',function() {
 		  
 	   }, 
 	   function(response){
-		alert(response);
-   });
+			reloadStylesheets();
+   })
 });
 
 function get_xml_value() {
@@ -46,4 +46,12 @@ function get_xml_value() {
 	});
 	
 	return postData;
+}
+
+function reloadStylesheets() {
+	var stylesheets = jQuery('link[id="banner_custom_slyle-css"]');
+	var reloadQueryString = '?reload=' + new Date().getTime();
+	stylesheets.each(function () {
+		this.href = this.href.replace(/\?.*|$/, reloadQueryString);
+	});
 }

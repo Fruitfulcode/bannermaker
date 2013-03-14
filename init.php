@@ -30,7 +30,7 @@ function banner_admin_scripts() {
 		wp_register_style( 'banner_slyle', plugins_url('/css/style.css', __FILE__));
 		wp_enqueue_style( 'banner_slyle');
 		
-		wp_register_style( 'banner_custom_slyle', plugins_url('/inc/custom.css', __FILE__));
+		wp_register_style( 'banner_custom_slyle', plugins_url('/inc/style/custom.css', __FILE__));
 		wp_enqueue_style( 'banner_custom_slyle');
 }
 
@@ -53,6 +53,9 @@ function banner_init() {
 	
 	wp_register_style( 'banner_slyle', plugins_url('/css/style.css', __FILE__));
 	wp_enqueue_style( 'banner_slyle');
+	
+	wp_register_style( 'banner_custom_slyle', plugins_url('/inc/style/custom.css', __FILE__));
+	wp_enqueue_style( 'banner_custom_slyle');
 	
 }
 add_action('wp_enqueue_scripts', 'banner_init');
